@@ -1,10 +1,11 @@
+```python
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
 st.set_page_config(
     page_title="Машиналык котормо анализатору",
-    page_icon="🌐",
+    page_icon="🌸",
     layout="wide"
 )
 
@@ -14,38 +15,67 @@ st.markdown(
     """
     <style>
 
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
     html, body, [class*="css"] {
-        font-family: 'Trebuchet MS', sans-serif;
+        font-family: 'Poppins', sans-serif;
     }
 
     .stApp {
-        background-color: #f6f1ff;
+        background: linear-gradient(
+            135deg,
+            #fff0f6,
+            #fce4ec,
+            #f8bbd0
+        );
     }
 
     h1 {
-        color: #7c4dff;
-        font-size: 52px;
-        font-weight: bold;
+        color: #ff4f8b;
+        font-size: 58px;
+        font-weight: 700;
         text-align: center;
     }
 
     h2, h3 {
-        color: #5e35b1;
+        color: #d63384;
+        font-weight: 600;
+    }
+
+    section[data-testid="stSidebar"] {
+        background-color: #ffe3ec;
     }
 
     .stButton>button {
-        background-color: #b39ddb;
+        background: linear-gradient(
+            90deg,
+            #ff6fa5,
+            #ff8fab
+        );
+
         color: white;
-        border-radius: 12px;
-        height: 3em;
-        width: 240px;
+        border-radius: 15px;
+        height: 3.2em;
+        width: 250px;
         font-size: 18px;
+        font-weight: 600;
         border: none;
     }
 
     .stButton>button:hover {
-        background-color: #9575cd;
+        background: linear-gradient(
+            90deg,
+            #ff4f8b,
+            #ff6fa5
+        );
+
         color: white;
+    }
+
+    .stMetric {
+        background-color: rgba(255,255,255,0.6);
+        padding: 15px;
+        border-radius: 15px;
     }
 
     </style>
@@ -65,7 +95,7 @@ st.sidebar.title("👩‍🎓 Автор жөнүндө")
 st.sidebar.info(
     """
     ✨ Аты-жөнү:
-    Сезим Тумобаева
+    Сезим Темирбековна
 
     🎓 Адистиги:
     Компьютердик лингвистика
@@ -77,10 +107,7 @@ st.sidebar.info(
     Маалыматтык технологиялар институту
 
     👩‍🏫 Илимий жетекчи:
-    Куоева Клара Акеновна
-
-    📚 Долбоор:
-    Машиналык котормо системаларын салыштырма талдоо
+    Укуева Клара Акиновна
     """
 )
 
@@ -88,7 +115,7 @@ st.sidebar.info(
 
 st.markdown(
     """
-    <h1>🌐 Машиналык котормо анализатору</h1>
+    <h1>🌸 Машиналык котормо анализатору</h1>
     """,
     unsafe_allow_html=True
 )
@@ -104,8 +131,9 @@ st.image(
 
 st.write(
     """
-    Бул долбоор Google Translate, DeepL жана
-    Yandex Translate системаларын салыштырат.
+    Бул долбоор Google Translate,
+    DeepL жана Yandex Translate
+    системаларын салыштырат.
 
     Система:
     - 😂 мемдерди
@@ -141,15 +169,13 @@ df["Category"] = df["Category"].replace({
 
 # ================= METRICS =================
 
-language_count = 3
-
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.metric("📄 Жалпы мисалдар", len(df))
 
 with col2:
-    st.metric("🌍 Тилдер", language_count)
+    st.metric("🌍 Тилдер", 3)
 
 with col3:
     st.metric("📚 Категориялар", df["Category"].nunique())
@@ -257,7 +283,7 @@ with tab2:
     })
 
     styled_df = filtered_df_display.style.background_gradient(
-        cmap="Purples"
+        cmap="RdPu"
     )
 
     st.dataframe(
@@ -325,20 +351,15 @@ with tab4:
 
     st.write(
         """
-        Бул NLP долбоору машиналык котормо
-        системаларын салыштырат.
+        Бул NLP долбоору машиналык
+        котормо системаларын салыштырат.
 
         Изилдөөдө:
         - Google Translate
         - DeepL
         - Yandex Translate
 
-        системалары колдонулган.
-
-        Долбоор интернет сленг,
-        мемдер, эмоционалдык сөздөр,
-        кыргыз макал-лакаптары жана
-        идиомаларды анализдейт.
+        колдонулган.
         """
     )
 
@@ -354,94 +375,8 @@ st.markdown("---")
 
 st.markdown(
     """
-    💜 Streamlit NLP Project  
-    🌐 Machine Translation Analysis System
+    💗 Streamlit NLP Project  
+    🌸 Machine Translation Analysis System
     """
 )
 ```
-# ================= STYLE =================
-
-st.markdown(
-    """
-    <style>
-
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-    html, body, [class*="css"] {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .stApp {
-        background: linear-gradient(
-            135deg,
-            #fff0f6,
-            #fce4ec,
-            #f8bbd0
-        );
-    }
-
-    h1 {
-        color: #ff4f8b;
-        font-size: 58px;
-        font-weight: 700;
-        text-align: center;
-    }
-
-    h2, h3 {
-        color: #d63384;
-        font-weight: 600;
-    }
-
-    section[data-testid="stSidebar"] {
-        background-color: #ffe3ec;
-    }
-
-    .stButton>button {
-        background: linear-gradient(
-            90deg,
-            #ff6fa5,
-            #ff8fab
-        );
-
-        color: white;
-        border-radius: 15px;
-        height: 3.2em;
-        width: 250px;
-        font-size: 18px;
-        font-weight: 600;
-        border: none;
-        box-shadow: 0 4px 15px rgba(255,105,135,0.3);
-    }
-
-    .stButton>button:hover {
-        background: linear-gradient(
-            90deg,
-            #ff4f8b,
-            #ff6fa5
-        );
-
-        color: white;
-        transform: scale(1.03);
-        transition: 0.3s;
-    }
-
-    div[data-baseweb="select"] {
-        background-color: white;
-        border-radius: 12px;
-    }
-
-    .stTextInput input {
-        border-radius: 12px;
-        border: 2px solid #ffb3c6;
-    }
-
-    .stMetric {
-        background-color: rgba(255,255,255,0.6);
-        padding: 15px;
-        border-radius: 15px;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
