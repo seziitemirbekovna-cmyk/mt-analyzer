@@ -220,10 +220,8 @@ if page == "🏠 Башкы бет":
         <h2>🧠 AI Анализ</h2>
 
         <p>
-
         Машиналык котормо
         системаларын салыштыруу
-
         </p>
 
         </div>
@@ -239,10 +237,8 @@ if page == "🏠 Башкы бет":
         <h2>📊 Аналитика</h2>
 
         <p>
-
         Диаграммалар жана
         статистикалык маалыматтар
-
         </p>
 
         </div>
@@ -258,9 +254,7 @@ if page == "🏠 Башкы бет":
         <h2>📚 Корпус</h2>
 
         <p>
-
         Изилдөө маалыматтары
-
         </p>
 
         </div>
@@ -358,88 +352,53 @@ elif page == "🧠 Котормо анализи":
 
         [
 
-            "🇰🇬 Кыргызча → Англисче",
-            "🇬🇧 Англисче → Кыргызча",
-            "🇷🇺 Орусча → Кыргызча",
-            "🇰🇬 Кыргызча → Орусча",
-            "🇬🇧 Англисче → Орусча",
-            "🇷🇺 Орусча → Англисче"
+            "🇰🇬 Кыргызча",
+            "🇬🇧 English",
+            "🇷🇺 Русский"
 
         ]
 
     )
+
+    filtered_df = df.copy()
+
+    # ================= LANGUAGE FILTER =================
+
+    if language == "🇰🇬 Кыргызча":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "Kyrgyz",
+                case=False,
+                na=False
+            )
+        ]
+
+    elif language == "🇬🇧 English":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "English",
+                case=False,
+                na=False
+            )
+        ]
+
+    elif language == "🇷🇺 Русский":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "Russian",
+                case=False,
+                na=False
+            )
+        ]
 
     # ================= SEARCH =================
 
     search = st.text_input(
         "🔎 Сөз же сүйлөм жазыңыз"
     )
-
-    filtered_df = df.copy()
-
-    # ================= FILTER =================
-
-    if language == "🇰🇬 Кыргызча → Англисче":
-
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "Kyrgyz",
-                case=False,
-                na=False
-            )
-        ]
-
-    elif language == "🇬🇧 Англисче → Кыргызча":
-
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "English",
-                case=False,
-                na=False
-            )
-        ]
-
-    elif language == "🇷🇺 Орусча → Кыргызча":
-
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "Russian",
-                case=False,
-                na=False
-            )
-        ]
-
-    elif language == "🇰🇬 Кыргызча → Орусча":
-
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "Kyrgyz",
-                case=False,
-                na=False
-            )
-        ]
-
-    elif language == "🇬🇧 Англисче → Орусча":
-
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "English",
-                case=False,
-                na=False
-            )
-        ]
-
-    elif language == "🇷🇺 Орусча → Англисче":
-
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "Russian",
-                case=False,
-                na=False
-            )
-        ]
-
-    # ================= SEARCH FILTER =================
 
     if search:
 
@@ -451,19 +410,23 @@ elif page == "🧠 Котормо анализи":
             )
         ]
 
-    # ================= CATEGORY =================
+    # ================= CATEGORY + WORD =================
 
-    categories = sorted(
-        filtered_df["Category"].dropna().unique()
-    )
+    col1, col2 = st.columns(2)
 
-    selected_category = st.selectbox(
+    with col1:
 
-        "🧩 КАТЕГОРИЯ",
+        categories = sorted(
+            filtered_df["Category"].dropna().unique()
+        )
 
-        ["Бардыгы"] + categories
+        selected_category = st.selectbox(
 
-    )
+            "🧩 КАТЕГОРИЯ ТАНДОО",
+
+            ["Бардыгы"] + categories
+
+        )
 
     if selected_category != "Бардыгы":
 
@@ -471,117 +434,107 @@ elif page == "🧠 Котормо анализи":
             filtered_df["Category"] == selected_category
         ]
 
-    # ================= EXPRESSION =================
-
-    if len(filtered_df) > 0:
+    with col2:
 
         expression = st.selectbox(
 
-            "💬 СӨЗ АЙКАШЫ",
+            "💬 СӨЗ ТАНДОО",
 
             filtered_df["Expression"]
 
         )
 
-        if st.button("📌 АНАЛИЗ"):
+    # ================= BUTTON =================
 
-            row = filtered_df[
-                filtered_df["Expression"] == expression
-            ].iloc[0]
+    if st.button("📌 АНАЛИЗ"):
+
+        row = filtered_df[
+            filtered_df["Expression"] == expression
+        ].iloc[0]
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        c1, c2 = st.columns(2)
+
+        with c1:
+
+            st.markdown(f"""
+
+            <div class="card blue-card">
+
+            <h2>💬 Сөз Айкашы</h2>
+
+            <p style="font-size:22px;">
+            {row['Expression']}
+            </p>
+
+            </div>
+
+            """, unsafe_allow_html=True)
 
             st.markdown("<br>", unsafe_allow_html=True)
 
-            c1, c2 = st.columns(2)
+            st.markdown(f"""
 
-            with c1:
+            <div class="card green-card">
 
-                st.markdown(f"""
+            <h2>✅ Адам Котормосу</h2>
 
-                <div class="card blue-card">
+            <p style="font-size:22px;">
+            {row['Human Translation']}
+            </p>
 
-                <h2>💬 Сөз Айкашы</h2>
+            </div>
 
-                <p style="font-size:22px;">
+            """, unsafe_allow_html=True)
 
-                {row['Expression']}
+            st.markdown("<br>", unsafe_allow_html=True)
 
-                </p>
+            st.markdown(f"""
 
-                </div>
+            <div class="card blue-card">
 
-                """, unsafe_allow_html=True)
+            <h2>🌐 Google Translate</h2>
 
-                st.markdown("<br>", unsafe_allow_html=True)
+            <p style="font-size:22px;">
+            {row['Google Translate']}
+            </p>
 
-                st.markdown(f"""
+            </div>
 
-                <div class="card green-card">
+            """, unsafe_allow_html=True)
 
-                <h2>✅ Адам Котормосу</h2>
+        with c2:
 
-                <p style="font-size:22px;">
+            st.markdown(f"""
 
-                {row['Human Translation']}
+            <div class="card purple-card">
 
-                </p>
+            <h2>🧠 DeepL</h2>
 
-                </div>
+            <p style="font-size:22px;">
+            {row['DeepL']}
+            </p>
 
-                """, unsafe_allow_html=True)
+            </div>
 
-                st.markdown("<br>", unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
-                st.markdown(f"""
+            st.markdown("<br>", unsafe_allow_html=True)
 
-                <div class="card blue-card">
+            st.markdown(f"""
 
-                <h2>🌐 Google Translate</h2>
+            <div class="card yellow-card">
 
-                <p style="font-size:22px;">
+            <h2>📘 Yandex Translate</h2>
 
-                {row['Google Translate']}
+            <p style="font-size:22px;">
+            {row['Yandex Translate']}
+            </p>
 
-                </p>
+            </div>
 
-                </div>
-
-                """, unsafe_allow_html=True)
-
-            with c2:
-
-                st.markdown(f"""
-
-                <div class="card purple-card">
-
-                <h2>🧠 DeepL</h2>
-
-                <p style="font-size:22px;">
-
-                {row['DeepL']}
-
-                </p>
-
-                </div>
-
-                """, unsafe_allow_html=True)
-
-                st.markdown("<br>", unsafe_allow_html=True)
-
-                st.markdown(f"""
-
-                <div class="card yellow-card">
-
-                <h2>📘 Yandex Translate</h2>
-
-                <p style="font-size:22px;">
-
-                {row['Yandex Translate']}
-
-                </p>
-
-                </div>
-
-                """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
 # ================= ANALYTICS =================
 
