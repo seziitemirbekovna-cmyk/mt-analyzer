@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # ================= PAGE =================
 
@@ -22,8 +21,7 @@ html, body, [class*="css"]{
 }
 
 .main{
-    background:
-    linear-gradient(
+    background:linear-gradient(
         135deg,
         #fff7fb,
         #ffeef6,
@@ -44,14 +42,11 @@ h1,h2,h3{
 }
 
 .stButton>button{
-
-    background:
-    linear-gradient(
+    background:linear-gradient(
         90deg,
         #ff4fa3,
         #d63384
     );
-
     color:white;
     border:none;
     border-radius:20px;
@@ -95,7 +90,7 @@ h1,h2,h3{
 }
 
 .big-title{
-    font-size:85px;
+    font-size:82px;
     text-align:center;
     font-family:Georgia;
     color:#c2185b;
@@ -286,7 +281,7 @@ if page == "🏠 Башкы бет":
     Бул долбоор машиналык котормо
     системаларын салыштыруу үчүн түзүлгөн.
 
-    Сайтта Google Translate,
+    Google Translate,
     DeepL жана Yandex Translate
     системаларынын котормолору
     анализденет.
@@ -337,60 +332,6 @@ if page == "🏠 Башкы бет":
 
     """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-
-        st.markdown("""
-
-        <div class="card blue-card">
-
-        <h2>🧠 AI Анализ</h2>
-
-        <p>
-        Машиналык котормо
-        системаларын салыштыруу
-        </p>
-
-        </div>
-
-        """, unsafe_allow_html=True)
-
-    with c2:
-
-        st.markdown("""
-
-        <div class="card green-card">
-
-        <h2>📊 Аналитика</h2>
-
-        <p>
-        Диаграммалар жана
-        статистикалык маалыматтар
-        </p>
-
-        </div>
-
-        """, unsafe_allow_html=True)
-
-    with c3:
-
-        st.markdown("""
-
-        <div class="card purple-card">
-
-        <h2>📚 Корпус</h2>
-
-        <p>
-        Изилдөө маалыматтары
-        </p>
-
-        </div>
-
-        """, unsafe_allow_html=True)
-
 # ================= ABOUT =================
 
 elif page == "👩‍🎓 Автор жөнүндө":
@@ -428,7 +369,6 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     🏫 Исхак Раззаков атындагы Кыргыз Мамлекеттик
     Техникалык Университети
-   
 
     <br>
 
@@ -478,92 +418,98 @@ elif page == "🧠 Котормо анализи":
         "📌 Сөздү же категорияны тандап, котормо системаларын салыштырыңыз."
     )
 
+    # ================= LANGUAGE =================
+
     language = st.selectbox(
 
         "🌍 ТИЛ ТАНДОО",
 
         [
-
             "Кыргызча",
-            " English",
-            " Русский"
-
+            "English",
+            "Русский"
         ]
 
     )
-# ================= FILTER =================
 
-filtered_df = df.copy()
+    filtered_df = df.copy()
 
-# ---------- LANGUAGE ----------
+    # ================= LANGUAGE FILTER =================
 
-if language == "🇰🇬 Кыргызча":
+    if language == "Кыргызча":
 
-    filtered_df = filtered_df[
-        filtered_df["Language"].astype(str).str.lower() == "kyrgyz"
-    ]
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.lower() == "kyrgyz"
+        ]
 
-elif language == "🇬🇧 English":
+    elif language == "English":
 
-    filtered_df = filtered_df[
-        filtered_df["Language"].astype(str).str.lower() == "english"
-    ]
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.lower() == "english"
+        ]
 
-elif language == "🇷🇺 Русский":
+    elif language == "Русский":
 
-    filtered_df = filtered_df[
-        filtered_df["Language"].astype(str).str.lower() == "russian"
-    ]
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.lower() == "russian"
+        ]
 
-# ---------- SEARCH ----------
+    # ================= SEARCH =================
 
-if search:
+    search = st.text_input(
+        "🔎 Сөз же сүйлөм жазыңыз"
+    )
 
-    filtered_df = filtered_df[
-        filtered_df["Expression"].astype(str).str.contains(
-            search,
-            case=False,
-            na=False
+    if search:
+
+        filtered_df = filtered_df[
+            filtered_df["Expression"].astype(str).str.contains(
+                search,
+                case=False,
+                na=False
+            )
+        ]
+
+    # ================= CATEGORY =================
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        categories = sorted(
+            filtered_df["Category"].dropna().unique()
         )
-    ]
 
-# ---------- CATEGORY ----------
+        selected_category = st.selectbox(
 
-col1, col2 = st.columns(2)
+            "🧩 КАТЕГОРИЯ ТАНДОО",
 
-with col1:
+            ["Бардыгы"] + categories
 
-    categories = sorted(
-        filtered_df["Category"].dropna().unique()
-    )
+        )
 
-    selected_category = st.selectbox(
+    if selected_category != "Бардыгы":
 
-        "🧩 КАТЕГОРИЯ ТАНДОО",
+        filtered_df = filtered_df[
+            filtered_df["Category"] == selected_category
+        ]
 
-        ["Бардыгы"] + categories
+    # ================= WORD =================
 
-    )
+    with col2:
 
-if selected_category != "Бардыгы":
+        if len(filtered_df) > 0:
 
-    filtered_df = filtered_df[
-        filtered_df["Category"] == selected_category
-    ]
+            words = sorted(
+                filtered_df["Expression"].dropna().unique()
+            )
 
-# ---------- WORD ----------
+            expression = st.selectbox(
 
-with col2:
+                "💬 СӨЗ ТАНДОО",
 
-    words = sorted(
-        filtered_df["Expression"].dropna().unique()
-    )
+                words
 
-    expression = st.selectbox(
-
-        "💬 СӨЗ ТАНДОО",
-
-        words
             )
 
         else:
@@ -573,6 +519,8 @@ with col2:
             st.warning(
                 "Маалымат табылган жок."
             )
+
+    # ================= ANALYSIS BUTTON =================
 
     if expression and st.button("📌 АНАЛИЗ КӨРСӨТҮҮ"):
 
@@ -701,45 +649,11 @@ elif page == "📊 Аналитика":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.subheader(
-        "📚 Категориялар боюнча бөлүштүрүү"
-    )
+    st.subheader("📚 Категориялар боюнча бөлүштүрүү")
 
-    category_counts = df[
-        "Category"
-    ].value_counts()
+    category_counts = df["Category"].value_counts()
 
     st.bar_chart(category_counts)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.subheader(
-        "🤖 Котормо Системаларын Салыштыруу"
-    )
-
-    translator_scores = pd.DataFrame({
-
-        "Котормо системасы": [
-
-            "DeepL",
-            "Google Translate",
-            "Yandex Translate"
-
-        ],
-
-        "Тактык": [
-            92,
-            84,
-            71
-        ]
-
-    })
-
-    st.bar_chart(
-        translator_scores.set_index(
-            "Котормо системасы"
-        )
-    )
 
     st.success(
         "📌 DeepL эмоционалдык жана идиомалык сөздөрдү эң так которгон."
@@ -752,23 +666,6 @@ elif page == "📊 Аналитика":
     st.error(
         "❌ Google Translate кээ бир фразеологизмдердин маанисин түз мааниде которгон."
     )
-
-    st.markdown("""
-
-    ### 📌 ЖЫЙЫНТЫК
-
-    DeepL системасы фразеологизмдерди
-    жана эмоционалдык сүйлөмдөрдү
-    салыштырмалуу так которгон.
-
-    Google Translate техникалык
-    сүйлөмдөрдө жакшы натыйжа көрсөткөн.
-
-    Yandex Translate айрым
-    маданий сөз айкаштарын
-    толук түшүндүрө алган эмес.
-
-    """)
 
 # ================= CORPUS =================
 
