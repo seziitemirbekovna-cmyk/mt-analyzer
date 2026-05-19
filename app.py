@@ -1,3 +1,5 @@
+# ================= IMPORT =================
+
 import streamlit as st
 import pandas as pd
 
@@ -53,11 +55,6 @@ h1,h2,h3{
     padding:14px 40px;
     font-size:18px;
     font-weight:600;
-    transition:0.3s;
-}
-
-.stButton>button:hover{
-    transform:scale(1.05);
 }
 
 .card{
@@ -65,28 +62,6 @@ h1,h2,h3{
     padding:30px;
     border-radius:30px;
     box-shadow:0 8px 20px rgba(0,0,0,0.08);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 25px rgba(0,0,0,0.15);
-}
-
-.blue-card{
-    background:#edf4ff;
-}
-
-.green-card{
-    background:#eefcf3;
-}
-
-.yellow-card{
-    background:#fff9e9;
-}
-
-.purple-card{
-    background:#f7efff;
 }
 
 .big-title{
@@ -106,8 +81,24 @@ h1,h2,h3{
 
 .info-text{
     font-size:22px;
-    line-height:2.2;
+    line-height:2.1;
     color:#4a4a4a;
+}
+
+.blue-card{
+    background:#edf4ff;
+}
+
+.green-card{
+    background:#eefcf3;
+}
+
+.yellow-card{
+    background:#fff9e9;
+}
+
+.purple-card{
+    background:#f7efff;
 }
 
 </style>
@@ -121,7 +112,6 @@ def load_data():
     try:
         df = pd.read_csv(
             "corpus.csv",
-            sep=",",
             encoding="utf-8"
         )
 
@@ -137,6 +127,10 @@ def load_data():
         for col in df.columns
     ]
 
+    # FIX SPACES
+    df["Category"] = df["Category"].astype(str).str.strip()
+    df["Language"] = df["Language"].astype(str).str.strip()
+
     return df
 
 df = load_data()
@@ -147,7 +141,7 @@ st.sidebar.markdown("""
 
 <div style="
 text-align:center;
-padding:10px;
+padding-top:10px;
 ">
 
 <img src="
@@ -159,24 +153,12 @@ width="110">
 color:#c2185b;
 font-family:Georgia;
 font-size:34px;
-margin-top:10px;
 ">
 
-АКЫЛДУУ КОТОРМО
+АКЫЛДУУ
+КОТОРМО
 
 </h1>
-
-<div style="
-font-size:15px;
-color:#7a5066;
-line-height:1.6;
-">
-
-Computer Linguistics
-<br>
-Graduation Project
-
-</div>
 
 </div>
 
@@ -232,29 +214,68 @@ if page == "🏠 Башкы бет":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.code(
-        "NLP • Machine Translation • Corpus Analysis • Artificial Intelligence"
-    )
-
-    st.success(
-        "🎓 Бул сайт дипломдук изилдөө долбоору катары түзүлгөн."
-    )
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.metric("📚 Мисалдар", len(df))
+
+        st.markdown("""
+
+        <div class="card blue-card">
+
+        <h2>🧠 AI Анализ</h2>
+
+        <p class="info-text">
+
+        Машиналык котормо системаларын
+        салыштыруу
+
+        </p>
+
+        </div>
+
+        """, unsafe_allow_html=True)
 
     with col2:
-        st.metric("🌍 Тилдер", df["Language"].nunique())
+
+        st.markdown("""
+
+        <div class="card green-card">
+
+        <h2>📊 Аналитика</h2>
+
+        <p class="info-text">
+
+        Диаграммалар жана статистика
+
+        </p>
+
+        </div>
+
+        """, unsafe_allow_html=True)
 
     with col3:
-        st.metric("🤖 Системалар", "3")
 
-    with col4:
-        st.metric("🧩 Категориялар", df["Category"].nunique())
+        st.markdown("""
+
+        <div class="card purple-card">
+
+        <h2>📚 Корпус</h2>
+
+        <p class="info-text">
+
+        Изилдөө маалыматтары
+
+        </p>
+
+        </div>
+
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.success(
+        "🎓 Бул дипломдук изилдөө долбоору."
+    )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -262,65 +283,23 @@ if page == "🏠 Башкы бет":
 
     <div class="card">
 
-    <h2 style="
-    text-align:center;
-    font-size:38px;
-    ">
-
-    📖 ДОЛБООР ЖӨНҮНДӨ
-
-    </h2>
-
-    <p style="
-    font-size:22px;
-    line-height:2;
-    text-align:center;
-    color:#4a4a4a;
-    ">
-
-    Бул долбоор машиналык котормо
-    системаларын салыштыруу үчүн түзүлгөн.
-
-    Google Translate,
-    DeepL жана Yandex Translate
-    системаларынын котормолору
-    анализденет.
-
-    </p>
-
-    </div>
-
-    """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.markdown("""
-
-    <div class="card">
-
-    <h2 style="
-    text-align:center;
-    font-size:35px;
-    ">
+    <h2 style="text-align:center;">
 
     🤖 КЫЗЫКТУУ ФАКТЫЛАР
 
     </h2>
 
-    <p style="
-    font-size:21px;
-    line-height:2;
-    ">
+    <p class="info-text">
 
     • DeepL эмоционалдык сүйлөмдөрдү жакшыраак түшүнөт.
 
     <br><br>
 
-    • Google Translate техникалык терминдерде так иштейт.
+    • Google Translate техникалык терминдерде жакшы иштейт.
 
     <br><br>
 
-    • Yandex Translate кыргызча диалекттерде ката кетириши мүмкүн.
+    • Yandex Translate сленг сөздөрдө көбүрөөк ката кетирет.
 
     <br><br>
 
@@ -342,11 +321,10 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <h1 style="
     text-align:center;
-    font-size:60px;
-    font-family:Georgia;
+    font-size:55px;
     ">
 
-    АВТОР ЖӨНҮНДӨ ✨
+    👩‍🎓 АВТОР ЖӨНҮНДӨ
 
     </h1>
 
@@ -367,8 +345,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    🏫 Исхак Раззаков атындагы Кыргыз Мамлекеттик
-    Техникалык Университети
+    🏫 КМТУ им. И. Раззакова
 
     <br>
 
@@ -377,12 +354,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    💻 Долбоор:
-    Машиналык Котормо Анализи
-
-    <br>
-
-    🤖 NLP • Artificial Intelligence
+    🤖 NLP • AI • Machine Translation
 
     </div>
 
@@ -414,12 +386,6 @@ elif page == "🧠 Котормо анализи":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.info(
-        "📌 Сөздү же категорияны тандап, котормо системаларын салыштырыңыз."
-    )
-
-    # ================= LANGUAGE =================
-
     language = st.selectbox(
 
         "🌍 ТИЛ ТАНДОО",
@@ -439,19 +405,19 @@ elif page == "🧠 Котормо анализи":
     if language == "Кыргызча":
 
         filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.lower() == "kyrgyz"
+            filtered_df["Language"].str.lower() == "kyrgyz"
         ]
 
     elif language == "English":
 
         filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.lower() == "english"
+            filtered_df["Language"].str.lower() == "english"
         ]
 
     elif language == "Русский":
 
         filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.lower() == "russian"
+            filtered_df["Language"].str.lower() == "russian"
         ]
 
     # ================= SEARCH =================
@@ -520,7 +486,7 @@ elif page == "🧠 Котормо анализи":
                 "Маалымат табылган жок."
             )
 
-    # ================= ANALYSIS BUTTON =================
+    # ================= BUTTON =================
 
     if expression and st.button("📌 АНАЛИЗ КӨРСӨТҮҮ"):
 
@@ -538,9 +504,9 @@ elif page == "🧠 Котормо анализи":
 
             <div class="card blue-card">
 
-            <h2>💬 Сөз Айкашы</h2>
+            <h2>💬 Сөз</h2>
 
-            <p style="font-size:22px;">
+            <p class="info-text">
             {row['Expression']}
             </p>
 
@@ -554,9 +520,9 @@ elif page == "🧠 Котормо анализи":
 
             <div class="card green-card">
 
-            <h2>✅ Адам Котормосу</h2>
+            <h2>✅ Human Translation</h2>
 
-            <p style="font-size:22px;">
+            <p class="info-text">
             {row['Human Translation']}
             </p>
 
@@ -572,7 +538,7 @@ elif page == "🧠 Котормо анализи":
 
             <h2>🌐 Google Translate</h2>
 
-            <p style="font-size:22px;">
+            <p class="info-text">
             {row['Google Translate']}
             </p>
 
@@ -588,7 +554,7 @@ elif page == "🧠 Котормо анализи":
 
             <h2>🧠 DeepL</h2>
 
-            <p style="font-size:22px;">
+            <p class="info-text">
             {row['DeepL']}
             </p>
 
@@ -604,7 +570,7 @@ elif page == "🧠 Котормо анализи":
 
             <h2>📘 Yandex Translate</h2>
 
-            <p style="font-size:22px;">
+            <p class="info-text">
             {row['Yandex Translate']}
             </p>
 
@@ -623,10 +589,9 @@ elif page == "📊 Аналитика":
     <h1 style="
     text-align:center;
     font-size:60px;
-    font-family:Georgia;
     ">
 
-    АНАЛИТИКА 📊
+    📊 АНАЛИТИКА
 
     </h1>
 
@@ -642,30 +607,18 @@ elif page == "📊 Аналитика":
         st.metric("🧠 DeepL", "92%")
 
     with col2:
-        st.metric("🌐 Google Translate", "84%")
+        st.metric("🌐 Google", "84%")
 
     with col3:
-        st.metric("📘 Yandex Translate", "71%")
+        st.metric("📘 Yandex", "71%")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.subheader("📚 Категориялар боюнча бөлүштүрүү")
+    st.subheader("📚 Категориялар")
 
     category_counts = df["Category"].value_counts()
 
     st.bar_chart(category_counts)
-
-    st.success(
-        "📌 DeepL эмоционалдык жана идиомалык сөздөрдү эң так которгон."
-    )
-
-    st.warning(
-        "⚠️ Yandex Translate айрым кыргызча диалект сөздөрүн туура эмес которгон."
-    )
-
-    st.error(
-        "❌ Google Translate кээ бир фразеологизмдердин маанисин түз мааниде которгон."
-    )
 
 # ================= CORPUS =================
 
@@ -678,10 +631,9 @@ elif page == "📚 Изилдөө корпусу":
     <h1 style="
     text-align:center;
     font-size:60px;
-    font-family:Georgia;
     ">
 
-    ИЗИЛДӨӨ КОРПУСУ 📚
+    📚 ИЗИЛДӨӨ КОРПУСУ
 
     </h1>
 
@@ -693,11 +645,11 @@ elif page == "📚 Изилдөө корпусу":
 
     display_df = df.rename(columns={
 
-        "Expression": "Сөз Айкашы",
+        "Expression": "Сөз",
         "Human Translation": "Адам Котормосу",
-        "Google Translate": "Google Translate",
+        "Google Translate": "Google",
         "DeepL": "DeepL",
-        "Yandex Translate": "Yandex Translate",
+        "Yandex Translate": "Yandex",
         "Language": "Тил",
         "Category": "Категория"
 
@@ -708,28 +660,6 @@ elif page == "📚 Изилдөө корпусу":
         display_df = display_df.drop(
             columns=["Comment"]
         )
-
-    st.caption(
-        f"📚 Жалпы мисалдар саны: {len(display_df)}"
-    )
-
-    search_corpus = st.text_input(
-        "🔎 Корпустан издөө"
-    )
-
-    if search_corpus:
-
-        display_df = display_df[
-            display_df.astype(str).apply(
-                lambda row:
-                row.str.contains(
-                    search_corpus,
-                    case=False,
-                    na=False
-                ).any(),
-                axis=1
-            )
-        ]
 
     st.dataframe(
         display_df,
