@@ -60,10 +60,11 @@ h1,h2,h3{
     padding:30px;
     border-radius:30px;
     box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    margin-bottom:20px;
 }
 
 .big-title{
-    font-size:82px;
+    font-size:78px;
     text-align:center;
     font-family:Georgia;
     color:#c2185b;
@@ -78,8 +79,8 @@ h1,h2,h3{
 }
 
 .info-text{
-    font-size:22px;
-    line-height:2.1;
+    font-size:21px;
+    line-height:2;
     color:#4a4a4a;
 }
 
@@ -97,6 +98,14 @@ h1,h2,h3{
 
 .purple-card{
     background:#f7efff;
+}
+
+.metric-box{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
 </style>
@@ -125,9 +134,19 @@ def load_data():
         for col in df.columns
     ]
 
-    # FIX SPACES
-    df["Category"] = df["Category"].astype(str).str.strip()
-    df["Language"] = df["Language"].astype(str).str.strip()
+    df["Category"] = (
+        df["Category"]
+        .astype(str)
+        .str.strip()
+    )
+
+    df["Language"] = (
+        df["Language"]
+        .astype(str)
+        .str.strip()
+    )
+
+    df = df.drop_duplicates()
 
     return df
 
@@ -145,12 +164,12 @@ padding-top:10px;
 <img src="
 https://kstu.kg/fileadmin/user_upload/kyrg.png
 "
-width="110">
+width="120">
 
 <h1 style="
 color:#c2185b;
 font-family:Georgia;
-font-size:34px;
+font-size:36px;
 ">
 
 АКЫЛДУУ
@@ -203,8 +222,6 @@ if page == "🏠 Башкы бет":
 
     """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
     st.image(
         "https://kstu.kg/fileadmin/main_menu/enrollee/fasad.jpg",
         use_container_width=True
@@ -212,9 +229,41 @@ if page == "🏠 Башкы бет":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns(3)
+    # ================= METRICS =================
+
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
+        st.metric(
+            "📚 Мисалдар",
+            len(df)
+        )
+
+    with col2:
+        st.metric(
+            "🌍 Тилдер",
+            df["Language"].nunique()
+        )
+
+    with col3:
+        st.metric(
+            "🧩 Категориялар",
+            df["Category"].nunique()
+        )
+
+    with col4:
+        st.metric(
+            "🤖 MT Системалар",
+            "3"
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ================= CARDS =================
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
 
         st.markdown("""
 
@@ -224,8 +273,8 @@ if page == "🏠 Башкы бет":
 
         <p class="info-text">
 
-        Машиналык котормо системаларын
-        салыштыруу
+        Машиналык котормо
+        системаларын салыштыруу
 
         </p>
 
@@ -233,7 +282,7 @@ if page == "🏠 Башкы бет":
 
         """, unsafe_allow_html=True)
 
-    with col2:
+    with c2:
 
         st.markdown("""
 
@@ -243,7 +292,8 @@ if page == "🏠 Башкы бет":
 
         <p class="info-text">
 
-        Диаграммалар жана статистика
+        Диаграммалар жана
+        статистикалык маалыматтар
 
         </p>
 
@@ -251,7 +301,7 @@ if page == "🏠 Башкы бет":
 
         """, unsafe_allow_html=True)
 
-    with col3:
+    with c3:
 
         st.markdown("""
 
@@ -268,12 +318,6 @@ if page == "🏠 Башкы бет":
         </div>
 
         """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.success(
-        "🎓 Бул дипломдук изилдөө долбоору."
-    )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -384,6 +428,8 @@ elif page == "🧠 Котормо анализи":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # ================= LANGUAGE =================
+
     language = st.selectbox(
 
         "🌍 ТИЛ ТАНДОО",
@@ -397,8 +443,6 @@ elif page == "🧠 Котормо анализи":
     )
 
     filtered_df = df.copy()
-
-    # ================= LANGUAGE FILTER =================
 
     if language == "Кыргызча":
 
@@ -427,7 +471,9 @@ elif page == "🧠 Котормо анализи":
     if search:
 
         filtered_df = filtered_df[
-            filtered_df["Expression"].astype(str).str.contains(
+            filtered_df["Expression"]
+            .astype(str)
+            .str.contains(
                 search,
                 case=False,
                 na=False
@@ -440,9 +486,12 @@ elif page == "🧠 Котормо анализи":
 
     with col1:
 
-        categories = sorted(
-            filtered_df["Category"].dropna().unique()
-        )
+        categories = sorted(list(set(
+            filtered_df["Category"]
+            .astype(str)
+            .str.strip()
+            .tolist()
+        )))
 
         selected_category = st.selectbox(
 
@@ -465,7 +514,9 @@ elif page == "🧠 Котормо анализи":
         if len(filtered_df) > 0:
 
             words = sorted(
-                filtered_df["Expression"].dropna().unique()
+                filtered_df["Expression"]
+                .dropna()
+                .unique()
             )
 
             expression = st.selectbox(
@@ -512,8 +563,6 @@ elif page == "🧠 Котормо анализи":
 
             """, unsafe_allow_html=True)
 
-            st.markdown("<br>", unsafe_allow_html=True)
-
             st.markdown(f"""
 
             <div class="card green-card">
@@ -527,8 +576,6 @@ elif page == "🧠 Котормо анализи":
             </div>
 
             """, unsafe_allow_html=True)
-
-            st.markdown("<br>", unsafe_allow_html=True)
 
             st.markdown(f"""
 
@@ -559,8 +606,6 @@ elif page == "🧠 Котормо анализи":
             </div>
 
             """, unsafe_allow_html=True)
-
-            st.markdown("<br>", unsafe_allow_html=True)
 
             st.markdown(f"""
 
@@ -638,8 +683,6 @@ elif page == "📚 Изилдөө корпусу":
     </div>
 
     """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     display_df = df.rename(columns={
 
