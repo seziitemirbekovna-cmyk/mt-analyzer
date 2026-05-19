@@ -1,3 +1,5 @@
+# ================= IMPORT =================
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -287,7 +289,8 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <div class="info-text">
 
-    👩‍🎓 Автор: Сезим Темирбековна
+    👩‍🎓 Автор:
+    Сезим Темирбековна
 
     <br>
 
@@ -349,13 +352,98 @@ elif page == "🧠 Котормо анализи":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # ================= LANGUAGE =================
+
+    language = st.selectbox(
+
+        "🌍 ТИЛ ТАНДОО",
+
+        [
+
+            "🇰🇬 Кыргызча → Англисче",
+            "🇬🇧 Англисче → Кыргызча",
+            "🇷🇺 Орусча → Кыргызча",
+            "🇰🇬 Кыргызча → Орусча",
+            "🇬🇧 Англисче → Орусча",
+            "🇷🇺 Орусча → Англисче"
+
+        ]
+
+    )
+
+    # ================= SEARCH =================
+
     search = st.text_input(
         "🔎 Сөз же сүйлөм жазыңыз"
     )
 
     filtered_df = df.copy()
 
-    if "Expression" in df.columns and search:
+    # ================= FILTER =================
+
+    if language == "🇰🇬 Кыргызча → Англисче":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "Kyrgyz",
+                case=False,
+                na=False
+            )
+        ]
+
+    elif language == "🇬🇧 Англисче → Кыргызча":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "English",
+                case=False,
+                na=False
+            )
+        ]
+
+    elif language == "🇷🇺 Орусча → Кыргызча":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "Russian",
+                case=False,
+                na=False
+            )
+        ]
+
+    elif language == "🇰🇬 Кыргызча → Орусча":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "Kyrgyz",
+                case=False,
+                na=False
+            )
+        ]
+
+    elif language == "🇬🇧 Англисче → Орусча":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "English",
+                case=False,
+                na=False
+            )
+        ]
+
+    elif language == "🇷🇺 Орусча → Англисче":
+
+        filtered_df = filtered_df[
+            filtered_df["Language"].astype(str).str.contains(
+                "Russian",
+                case=False,
+                na=False
+            )
+        ]
+
+    # ================= SEARCH FILTER =================
+
+    if search:
 
         filtered_df = filtered_df[
             filtered_df["Expression"].astype(str).str.contains(
@@ -365,27 +453,29 @@ elif page == "🧠 Котормо анализи":
             )
         ]
 
-    if "Category" in filtered_df.columns:
+    # ================= CATEGORY =================
 
-        categories = sorted(
-            filtered_df["Category"].dropna().unique()
-        )
+    categories = sorted(
+        filtered_df["Category"].dropna().unique()
+    )
 
-        selected_category = st.selectbox(
+    selected_category = st.selectbox(
 
-            "🧩 КАТЕГОРИЯ",
+        "🧩 КАТЕГОРИЯ",
 
-            ["Бардыгы"] + categories
+        ["Бардыгы"] + categories
 
-        )
+    )
 
-        if selected_category != "Бардыгы":
+    if selected_category != "Бардыгы":
 
-            filtered_df = filtered_df[
-                filtered_df["Category"] == selected_category
-            ]
+        filtered_df = filtered_df[
+            filtered_df["Category"] == selected_category
+        ]
 
-    if len(filtered_df) > 0 and "Expression" in filtered_df.columns:
+    # ================= EXPRESSION =================
+
+    if len(filtered_df) > 0:
 
         expression = st.selectbox(
 
@@ -519,45 +609,43 @@ elif page == "📊 Аналитика":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    if "Category" in df.columns:
+    st.subheader("📚 Категориялар")
 
-        st.subheader("📚 Категориялар")
+    category_counts = df[
+        "Category"
+    ].value_counts()
 
-        category_counts = df[
-            "Category"
-        ].value_counts()
+    st.bar_chart(category_counts)
 
-        st.bar_chart(category_counts)
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
-        st.markdown("<br><br>", unsafe_allow_html=True)
+    st.subheader(
+        "🤖 Котормо Системаларын Салыштыруу"
+    )
 
-        st.subheader(
-            "🤖 Котормо Системаларын Салыштыруу"
+    translator_scores = pd.DataFrame({
+
+        "Система": [
+
+            "DeepL",
+            "Google Translate",
+            "Yandex Translate"
+
+        ],
+
+        "Тактык": [
+            92,
+            84,
+            71
+        ]
+
+    })
+
+    st.bar_chart(
+        translator_scores.set_index(
+            "Система"
         )
-
-        translator_scores = pd.DataFrame({
-
-            "Система": [
-
-                "DeepL",
-                "Google Translate",
-                "Yandex Translate"
-
-            ],
-
-            "Тактык": [
-                92,
-                84,
-                71
-            ]
-
-        })
-
-        st.bar_chart(
-            translator_scores.set_index(
-                "Система"
-            )
-        )
+    )
 
 # ================= CORPUS =================
 
