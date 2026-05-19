@@ -1,3 +1,5 @@
+# ================= IMPORT =================
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -64,7 +66,7 @@ h1,h2,h3{
     background:white;
     padding:30px;
     border-radius:30px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.07);
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
 .blue-card{
@@ -108,16 +110,33 @@ h1,h2,h3{
 @st.cache_data
 def load_data():
 
+    # CSV ОКУУ
+
     try:
 
         df = pd.read_csv(
             "corpus.csv",
-            sep=";"
+            encoding="utf-8",
+            sep=","
         )
 
     except:
 
-        df = pd.read_csv("corpus.csv")
+        try:
+
+            df = pd.read_csv(
+                "corpus.csv",
+                encoding="utf-8",
+                sep=";"
+            )
+
+        except:
+
+            df = pd.read_csv(
+                "corpus.csv"
+            )
+
+    # КОЛОНКА АТТАРЫН ТАЗАЛОО
 
     df.columns = [
         col.strip()
@@ -130,22 +149,29 @@ df = load_data()
 
 # ================= SIDEBAR =================
 
-st.sidebar.image(
-    "https://upload.wikimedia.org/wikipedia/commons/7/7e/Globe_icon.svg",
-    width=120
-)
-
 st.sidebar.markdown("""
-<h1 style='
+
+<div style="
 text-align:center;
+padding:20px;
+">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Globe_icon.svg"
+width="110">
+
+<h1 style="
 color:#c2185b;
 font-family:Georgia;
-font-size:35px;
-'>
+font-size:34px;
+margin-top:10px;
+">
 
 АКЫЛДУУ КОТОРМО
 
 </h1>
+
+</div>
+
 """, unsafe_allow_html=True)
 
 page = st.sidebar.radio(
@@ -169,6 +195,7 @@ page = st.sidebar.radio(
 if page == "🏠 Башкы бет":
 
     st.markdown("""
+
     <div class="card">
 
     <div class="big-title">
@@ -185,50 +212,77 @@ if page == "🏠 Башкы бет":
     </div>
 
     </div>
+
     """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     st.image(
+
         "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+
         use_container_width=True
+
     )
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with c1:
+    with col1:
 
         st.markdown("""
+
         <div class="card blue-card">
+
         <h2>🧠 AI Анализ</h2>
+
         <p>
-        Машиналык котормо системаларын салыштыруу
+
+        Машиналык котормо системаларын
+        салыштыруу
+
         </p>
+
         </div>
+
         """, unsafe_allow_html=True)
 
-    with c2:
+    with col2:
 
         st.markdown("""
+
         <div class="card green-card">
+
         <h2>📊 Аналитика</h2>
+
         <p>
-        Диаграммалар жана статистикалык маалыматтар
+
+        Диаграммалар жана
+        статистикалык маалыматтар
+
         </p>
+
         </div>
+
         """, unsafe_allow_html=True)
 
-    with c3:
+    with col3:
 
         st.markdown("""
+
         <div class="card purple-card">
+
         <h2>📚 Корпус</h2>
+
         <p>
-        Изилдөө маалыматтары жана corpus dataset
+
+        Изилдөө corpus dataset
+
         </p>
+
         </div>
+
         """, unsafe_allow_html=True)
 
 # ================= ABOUT =================
@@ -236,6 +290,7 @@ if page == "🏠 Башкы бет":
 elif page == "👩‍🎓 Автор жөнүндө":
 
     st.markdown("""
+
     <div class="card">
 
     <h1 style="
@@ -262,7 +317,8 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    🏫 Кыргыз Мамлекеттик Техникалык Университети
+    🏫 Кыргыз Мамлекеттик
+    Техникалык Университети
 
     <br>
 
@@ -275,6 +331,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
     </div>
 
     </div>
+
     """, unsafe_allow_html=True)
 
 # ================= ANALYSIS =================
@@ -282,6 +339,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 elif page == "🧠 Котормо анализи":
 
     st.markdown("""
+
     <div class="card">
 
     <h1 style="
@@ -295,9 +353,12 @@ elif page == "🧠 Котормо анализи":
     </h1>
 
     </div>
+
     """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
+
+    # ЭГЕР COLUMN БАР БОЛСО
 
     if "Expression" in df.columns:
 
@@ -316,6 +377,8 @@ elif page == "🧠 Котормо анализи":
                     na=False
                 )
             ]
+
+        # КАТЕГОРИЯ
 
         if "Category" in filtered_df.columns:
 
@@ -337,11 +400,16 @@ elif page == "🧠 Котормо анализи":
                     filtered_df["Category"] == selected_category
                 ]
 
+        # СӨЗ ТАНДОО
+
         if len(filtered_df) > 0:
 
             expression = st.selectbox(
+
                 "💬 СӨЗ АЙКАШЫ",
+
                 filtered_df["Expression"]
+
             )
 
             if st.button("📌 АНАЛИЗ"):
@@ -352,68 +420,110 @@ elif page == "🧠 Котормо анализи":
 
                 st.markdown("<br>", unsafe_allow_html=True)
 
-                col1, col2 = st.columns(2)
+                c1, c2 = st.columns(2)
 
-                with col1:
+                with c1:
 
                     st.markdown(f"""
+
                     <div class="card blue-card">
+
                     <h2>💬 Сөз Айкашы</h2>
+
                     <p style="font-size:22px;">
+
                     {row['Expression']}
+
                     </p>
+
                     </div>
+
                     """, unsafe_allow_html=True)
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
                     st.markdown(f"""
+
                     <div class="card green-card">
+
                     <h2>✅ Адам Котормосу</h2>
+
                     <p style="font-size:22px;">
+
                     {row['Human Translation']}
+
                     </p>
+
                     </div>
+
                     """, unsafe_allow_html=True)
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
                     st.markdown(f"""
+
                     <div class="card blue-card">
+
                     <h2>🌐 Google Translate</h2>
+
                     <p style="font-size:22px;">
+
                     {row['Google Translate']}
+
                     </p>
+
                     </div>
+
                     """, unsafe_allow_html=True)
 
-                with col2:
+                with c2:
 
                     st.markdown(f"""
+
                     <div class="card purple-card">
+
                     <h2>🧠 DeepL</h2>
+
                     <p style="font-size:22px;">
+
                     {row['DeepL']}
+
                     </p>
+
                     </div>
+
                     """, unsafe_allow_html=True)
 
                     st.markdown("<br>", unsafe_allow_html=True)
 
                     st.markdown(f"""
+
                     <div class="card yellow-card">
+
                     <h2>📘 Yandex Translate</h2>
+
                     <p style="font-size:22px;">
+
                     {row['Yandex Translate']}
+
                     </p>
+
                     </div>
+
                     """, unsafe_allow_html=True)
+
+    else:
+
+        st.error(
+            "CSV колонкалары туура эмес 😭"
+        )
 
 # ================= ANALYTICS =================
 
 elif page == "📊 Аналитика":
 
     st.markdown("""
+
     <div class="card">
 
     <h1 style="
@@ -427,19 +537,22 @@ elif page == "📊 Аналитика":
     </h1>
 
     </div>
+
     """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     if "Category" in df.columns:
 
+        st.subheader("📚 Категориялар")
+
         category_counts = df[
             "Category"
         ].value_counts()
 
-        st.subheader("📚 Категориялар")
-
-        fig1, ax1 = plt.subplots(figsize=(7,7))
+        fig1, ax1 = plt.subplots(
+            figsize=(7,7)
+        )
 
         ax1.pie(
 
@@ -455,7 +568,9 @@ elif page == "📊 Аналитика":
 
         st.markdown("<br><br>", unsafe_allow_html=True)
 
-        st.subheader("🤖 AI Тактык Салыштыруу")
+        st.subheader(
+            "🤖 AI Тактык Салыштыруу"
+        )
 
         translator_scores = pd.DataFrame({
 
@@ -476,7 +591,9 @@ elif page == "📊 Аналитика":
         })
 
         st.bar_chart(
-            translator_scores.set_index("Система")
+            translator_scores.set_index(
+                "Система"
+            )
         )
 
 # ================= CORPUS =================
@@ -484,6 +601,7 @@ elif page == "📊 Аналитика":
 elif page == "📚 Изилдөө корпусу":
 
     st.markdown("""
+
     <div class="card">
 
     <h1 style="
@@ -497,6 +615,7 @@ elif page == "📚 Изилдөө корпусу":
     </h1>
 
     </div>
+
     """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -521,6 +640,7 @@ elif page == "📚 Изилдөө корпусу":
 st.markdown("---")
 
 st.markdown("""
+
 <div style='
 text-align:center;
 color:#7a5066;
@@ -531,4 +651,5 @@ padding:15px;
 ✨ АКЫЛДУУ КОТОРМО СИСТЕМАСЫ • 2026 ✨
 
 </div>
+
 """, unsafe_allow_html=True)
