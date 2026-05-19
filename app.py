@@ -1,9 +1,10 @@
+```python
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
 st.set_page_config(
-    page_title="Машиналык котормо анализатору",
+    page_title="NLP Translation Project",
     page_icon="🌸",
     layout="wide"
 )
@@ -30,14 +31,14 @@ st.markdown(
     }
 
     h1 {
-        color: #ff4f8b;
+        color: #d63384;
         font-size: 58px;
         font-weight: 700;
         text-align: center;
     }
 
     h2, h3 {
-        color: #d63384;
+        color: #c2185b;
         font-weight: 600;
     }
 
@@ -72,7 +73,7 @@ st.markdown(
     }
 
     .stMetric {
-        background-color: rgba(255,255,255,0.6);
+        background-color: rgba(255,255,255,0.5);
         padding: 15px;
         border-radius: 15px;
     }
@@ -89,23 +90,23 @@ st.sidebar.image(
     width=220
 )
 
-st.sidebar.title("👩‍🎓 Автор жөнүндө")
+st.sidebar.title("Автор Жөнүндө")
 
 st.sidebar.info(
     """
-    ✨ Аты-жөнү:
+    ✨ Аты-Жөнү:
     Сезим Темирбековна
 
     🎓 Адистиги:
-    Компьютердик лингвистика
+    Компьютердик Лингвистика
 
     🏫 Университет:
-    Кыргыз мамлекеттик техникалык университети
+    Кыргыз Мамлекеттик Техникалык Университети
 
     💻 Институт:
-    Маалыматтык технологиялар институту
+    Маалыматтык Технологиялар Институту
 
-    👩‍🏫 Илимий жетекчи:
+    👩‍🏫 Илимий Жетекчи:
     Укуева Клара Акиновна
     """
 )
@@ -114,37 +115,87 @@ st.sidebar.info(
 
 st.markdown(
     """
-    <h1>🌸 Машиналык котормо анализатору</h1>
+    <div style='text-align:center; margin-top:20px;'>
+
+    <h1 style='
+        color:#d63384;
+        font-size:58px;
+        font-weight:700;
+        line-height:1.2;
+    '>
+
+    Машиналык Котормо
+    Системаларын
+    Салыштырма Талдоо
+
+    </h1>
+
+    <p style='
+        font-size:24px;
+        color:#7a4b6a;
+        margin-top:-10px;
+        font-weight:500;
+    '>
+
+    Компьютердик Лингвистика Боюнча
+    NLP Изилдөө Долбоору
+
+    </p>
+
+    </div>
     """,
     unsafe_allow_html=True
 )
 
-# ================= IMAGE =================
+# ================= HERO SECTION =================
 
-st.image(
-    "https://miro.medium.com/max/1400/1*YM2HXc7f4v02pZBEO8h-qw.png",
-    width=250
-)
+col1, col2 = st.columns([1,2])
 
-# ================= DESCRIPTION =================
+with col1:
 
-st.write(
-    """
-    Бул долбоор Google Translate,
-    DeepL жана Yandex Translate
-    системаларын салыштырат.
+    st.image(
+        "https://miro.medium.com/max/1400/1*YM2HXc7f4v02pZBEO8h-qw.png",
+        width=180
+    )
 
-    Система:
-    - 😂 мемдерди
-    - 📱 интернет сленгди
-    - 🎮 оюн терминдерин
-    - 💔 эмоционалдык сөздөрдү
-    - 📖 идиомаларды
-    - 🇰🇬 кыргыз макал-лакаптарын
+with col2:
 
-    анализдейт.
-    """
-)
+    st.markdown(
+        """
+        <div style="
+            background-color: rgba(255,255,255,0.5);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+        ">
+
+        <h3 style="color:#d63384;">
+        NLP Жана Machine Translation Analysis
+        </h3>
+
+        <p style="font-size:18px;">
+
+        Бул долбоор Google Translate,
+        DeepL жана Yandex Translate
+        системаларын салыштырат.
+
+        </p>
+
+        <p style="font-size:17px;">
+
+        Мемдер <br>
+        Интернет Сленги <br>
+        Оюн Терминдери <br>
+        Эмоционалдык Сөздөр <br>
+        Идиомалар <br>
+        Кыргыз Макал-Лакаптары
+
+        </p>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # ================= LOAD DATA =================
 
@@ -153,17 +204,17 @@ df = pd.read_csv("corpus.csv")
 # ================= CATEGORY TRANSLATION =================
 
 df["Category"] = df["Category"].replace({
-    "Business English": "💼 Бизнес англис тили",
-    "Psychology": "🧠 Психология",
-    "Emotional Expressions": "💔 Эмоционалдык сөздөр",
-    "Memes": "😂 Мемдер",
-    "Internet Slang": "🌍 Интернет сленги",
-    "Social Media": "📱 Социалдык тармактар",
-    "Gaming Slang": "🎮 Оюн сленги",
-    "Idioms": "📖 Идиомалар",
-    "Kyrgyz Proverbs": "🇰🇬 Кыргыз макал-лакаптары",
-    "Kyrgyz Expressions": "🗣 Кыргыз сөз айкаштары",
-    "Technical NLP": "🤖 NLP терминдери"
+    "Business English": "Бизнес Англис Тили",
+    "Psychology": "Психология",
+    "Emotional Expressions": "Эмоционалдык Сөздөр",
+    "Memes": "Мемдер",
+    "Internet Slang": "Интернет Сленги",
+    "Social Media": "Социалдык Тармактар",
+    "Gaming Slang": "Оюн Сленги",
+    "Idioms": "Идиомалар",
+    "Kyrgyz Proverbs": "Кыргыз Макал-Лакаптары",
+    "Kyrgyz Expressions": "Кыргыз Сөз Айкаштары",
+    "Technical NLP": "NLP Терминдери"
 })
 
 # ================= METRICS =================
@@ -171,35 +222,53 @@ df["Category"] = df["Category"].replace({
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("📄 Жалпы мисалдар", len(df))
+    st.metric("Жалпы Мисалдар", len(df))
 
 with col2:
-    st.metric("🌍 Тилдер", 3)
+    st.metric("Тилдер", 3)
 
 with col3:
-    st.metric("📚 Категориялар", df["Category"].nunique())
+    st.metric("Категориялар", df["Category"].nunique())
 
 # ================= SEARCH =================
 
-search = st.text_input("🔍 Издөө")
+search = st.text_input("Издөө")
 
 if search:
     df = df[df["Expression"].str.contains(search, case=False, na=False)]
 
-# ================= FILTERS =================
+# ================= LANGUAGE =================
 
-language = st.selectbox(
-    "🌍 Тилди тандаңыз:",
-    ["Бардыгы"] + sorted(df["Language"].unique())
+language_mapping = {
+    "English": "Англисче",
+    "Kyrgyz": "Кыргызча",
+    "Russian": "Орусча"
+}
+
+language_options = ["Бардыгы"] + [
+    language_mapping.get(lang, lang)
+    for lang in sorted(df["Language"].unique())
+]
+
+selected_language = st.selectbox(
+    "Тилди Тандаңыз:",
+    language_options
 )
 
-if language != "Бардыгы":
-    filtered_df = df[df["Language"] == language]
+reverse_mapping = {
+    v: k for k, v in language_mapping.items()
+}
+
+if selected_language != "Бардыгы":
+    real_language = reverse_mapping[selected_language]
+    filtered_df = df[df["Language"] == real_language]
 else:
     filtered_df = df
 
+# ================= CATEGORY =================
+
 category = st.selectbox(
-    "📚 Категория:",
+    "Категория:",
     ["Бардыгы"] + sorted(filtered_df["Category"].unique())
 )
 
@@ -208,27 +277,29 @@ if category != "Бардыгы":
         filtered_df["Category"] == category
     ]
 
+# ================= EXPRESSION =================
+
 expression = st.selectbox(
-    "🧠 Сөз айкашы:",
+    "Сөз Айкашы:",
     filtered_df["Expression"]
 )
 
 # ================= TABS =================
 
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📊 Анализ",
-    "📚 Корпус",
-    "📈 Диаграммалар",
-    "ℹ️ Долбоор жөнүндө"
+    "Анализ",
+    "Корпус",
+    "Диаграммалар",
+    "Долбоор Жөнүндө"
 ])
 
 # ================= TAB 1 =================
 
 with tab1:
 
-    st.subheader("🧠 Котормо анализи")
+    st.subheader("Котормо Анализи")
 
-    if st.button("✨ Анализ көрсөтүү"):
+    if st.button("Анализ Көрсөтүү"):
 
         row = filtered_df[
             filtered_df["Expression"] == expression
@@ -239,40 +310,40 @@ with tab1:
         with col1:
 
             st.info(
-                f"📝 Сөз айкашы:\n\n{row['Expression']}"
+                f"Сөз Айкашы:\n\n{row['Expression']}"
             )
 
             st.success(
-                f"👩 Адам котормосу:\n\n{row['Human Translation']}"
+                f"Адам Котормосу:\n\n{row['Human Translation']}"
             )
 
             st.write(
-                f"🤖 Google Translate:\n\n{row['Google Translate']}"
+                f"Google Translate:\n\n{row['Google Translate']}"
             )
 
         with col2:
 
             st.write(
-                f"💙 DeepL:\n\n{row['DeepL']}"
+                f"DeepL:\n\n{row['DeepL']}"
             )
 
             st.write(
-                f"🟡 Yandex Translate:\n\n{row['Yandex Translate']}"
+                f"Yandex Translate:\n\n{row['Yandex Translate']}"
             )
 
             st.warning(
-                f"💬 Комментарий:\n\n{row['Comment']}"
+                f"Комментарий:\n\n{row['Comment']}"
             )
 
 # ================= TAB 2 =================
 
 with tab2:
 
-    st.subheader("📚 Изилдөө корпусу")
+    st.subheader("Изилдөө Корпусу")
 
     filtered_df_display = filtered_df.rename(columns={
-        "Expression": "Сөз айкашы",
-        "Human Translation": "Адам котормосу",
+        "Expression": "Сөз Айкашы",
+        "Human Translation": "Адам Котормосу",
         "Google Translate": "Google Translate",
         "DeepL": "DeepL",
         "Yandex Translate": "Yandex Translate",
@@ -294,36 +365,21 @@ with tab2:
 
 with tab3:
 
-    st.subheader("📊 Категориялар боюнча бөлүштүрүү")
+    st.subheader("Категориялар Боюнча Бөлүштүрүү")
 
     category_counts = df["Category"].value_counts()
-
-    clean_labels = [
-        label.replace("💼", "")
-             .replace("🧠", "")
-             .replace("💔", "")
-             .replace("😂", "")
-             .replace("🌍", "")
-             .replace("📱", "")
-             .replace("🎮", "")
-             .replace("📖", "")
-             .replace("🇰🇬", "")
-             .replace("🗣", "")
-             .replace("🤖", "")
-        for label in category_counts.index
-    ]
 
     fig1, ax1 = plt.subplots(figsize=(5,5))
 
     ax1.pie(
         category_counts,
-        labels=clean_labels,
+        labels=category_counts.index,
         autopct='%1.1f%%'
     )
 
     st.pyplot(fig1)
 
-    st.subheader("🏆 Котормо системаларынын рейтинги")
+    st.subheader("Котормо Системаларынын Рейтинги")
 
     translator_scores = pd.DataFrame({
         "Котормочу": [
@@ -346,7 +402,7 @@ with tab3:
 
 with tab4:
 
-    st.subheader("ℹ️ Долбоор жөнүндө")
+    st.subheader("Долбоор Жөнүндө")
 
     st.write(
         """
@@ -358,14 +414,14 @@ with tab4:
         - DeepL
         - Yandex Translate
 
-        колдонулган.
+        системалары колдонулган.
         """
     )
 
     st.progress(92)
 
     st.success(
-        "💜 Компьютердик лингвистика боюнча дипломдук долбоор"
+        "Компьютердик Лингвистика Боюнча Дипломдук Долбоор"
     )
 
 # ================= FOOTER =================
@@ -374,7 +430,7 @@ st.markdown("---")
 
 st.markdown(
     """
-    💗 Streamlit NLP Project  
-    🌸 Machine Translation Analysis System
+    NLP Translation Research Project
     """
 )
+```
