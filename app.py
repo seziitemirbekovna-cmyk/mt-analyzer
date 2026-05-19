@@ -1,68 +1,63 @@
 import streamlit as st
 import pandas as pd
-from deep_translator import GoogleTranslator
 
-st.set_page_config(page_title="MT Analyzer")
-
-st.title("MT Analyzer")
-st.subheader("Сравнительный анализ машинного перевода")
-
-corpus = {
-    "Expression": [
-        "Touch grass",
-        "Ghost someone",
-        "Delulu",
-        "NPC behavior",
-        "It’s giving rich energy"
-    ],
-
-    "Human Translation": [
-        "выйди в реальный мир",
-        "резко игнорировать человека",
-        "жить в иллюзиях",
-        "поведение как у NPC",
-        "создает вайб богатства"
-    ],
-
-    "Comment": [
-        "Possible literal translation",
-        "Context important",
-        "Slang adaptation required",
-        "Gaming slang",
-        "Cultural adaptation"
-    ]
-}
-
-df = pd.DataFrame(corpus)
-
-selected = st.selectbox(
-    "Выберите выражение:",
-    df["Expression"]
+st.set_page_config(
+    page_title="MT Analyzer",
+    page_icon="🌐",
+    layout="wide"
 )
 
-if st.button("Analyze"):
+st.title("🌐 MT Analyzer")
+st.subheader("Сравнительный анализ машинного перевода")
 
-    machine_translation = GoogleTranslator(
-        source='en',
-        target='ru'
-    ).translate(selected)
+st.write(
+    "Веб-приложение для анализа перевода интернет-сленга, "
+    "идиоматических выражений и кыргызских культурных конструкций."
+)
 
-    human_translation = df[
-        df["Expression"] == selected
-    ]["Human Translation"].values[0]
+df = pd.read_csv("corpus.csv")
 
-    comment = df[
-        df["Expression"] == selected
-    ]["Comment"].values[0]
+language = st.selectbox(
+    "Выберите язык:",
+    ["All"] + list(df["Language"].unique())
+)
 
-    st.subheader("Machine Translation")
-    st.success(machine_translation)
+if language != "All":
+    filtered_df = df[df["Language"] == language]
+else:
+    filtered_df = df
+
+expression = st.selectbox(
+    "Выберите выражение:",
+    filtered_df["Expression"]
+)
+
+if st.button("Показать анализ"):
+    row = filtered_df[filtered_df["Expression"] == expression].iloc[0]
+
+    st.subheader("Expression")
+    st.success(row["Expression"])
 
     st.subheader("Human Translation")
-    st.info(human_translation)
+    st.info(row["Human Translation"])
+
+    st.subheader("Language")
+    st.write(row["Language"])
 
     st.subheader("Comment")
-    st.warning(comment)
+    st.warning(row["Comment"])
+
+st.divider()
 
 st.subheader("Research Corpus")
-st.table(df)
+
+st.dataframe(
+    filtered_df,
+    use_container_width=True
+)
+
+st.subheader("Corpus Statistics")
+
+stats = df["Language"].value_counts()
+
+st.bar_chart(stats)
