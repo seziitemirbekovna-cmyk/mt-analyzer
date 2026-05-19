@@ -864,4 +864,3 @@ padding:15px;
 </div>
 
 """, unsafe_allow_html=True)
-```
