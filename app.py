@@ -8,102 +8,130 @@ st.set_page_config(
     layout="wide"
 )
 
-# BACKGROUND
+# STYLE
 st.markdown(
     """
     <style>
+
+    html, body, [class*="css"]  {
+        font-family: 'Trebuchet MS', sans-serif;
+    }
+
     .stApp {
         background-color: #f6f1ff;
     }
 
     h1 {
         color: #7c4dff;
+        font-size: 52px;
+        font-weight: bold;
+        text-align: center;
     }
 
     h2, h3 {
         color: #5e35b1;
     }
+
+    .stButton>button {
+        background-color: #b39ddb;
+        color: white;
+        border-radius: 12px;
+        height: 3em;
+        width: 240px;
+        font-size: 18px;
+        border: none;
+    }
+
+    .stButton>button:hover {
+        background-color: #9575cd;
+        color: white;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# LOGO
+# SIDEBAR
 st.sidebar.image(
-    "https://upload.wikimedia.org/wikipedia/commons/2/2e/KSTU_logo.png",
-    width=180
+    "https://kstu.kg/fileadmin/user_upload/russkii_var.png",
+    width=220
 )
 
-# SIDEBAR
 st.sidebar.title("👩‍🎓 Автор жөнүндө")
 
 st.sidebar.info(
     """
     ✨ Аты-жөнү:
-    Сезим Темирбековна
-    
+    Сезим Тумобаева
+
     🎓 Адистиги:
     Компьютердик лингвистика
-    
+
     🏫 Университет:
     Кыргыз мамлекеттик техникалык университети
-    
+
     💻 Институт:
     Маалыматтык технологиялар институту
-    
+
     👩‍🏫 Илимий жетекчи:
-    Укуева Клара Акиновна
-    
+    Куоева Клара Акеновна
+
     📚 Долбоор:
     Машиналык котормо системаларын салыштырма талдоо
-    
-    🌐 NLP жана Machine Translation долбоору
     """
 )
 
-# HEADER
+# TITLE
 st.markdown(
     """
-    <h1 style='text-align: center;'>
-    🌐 Машиналык котормо анализатору
-    </h1>
+    <h1>🌐 Машиналык котормо анализатору</h1>
     """,
     unsafe_allow_html=True
 )
 
-# NLP IMAGE
+# IMAGE
 st.image(
     "https://miro.medium.com/max/1400/1*YM2HXc7f4v02pZBEO8h-qw.png",
-    use_container_width=True
+    width=500
 )
 
-st.subheader("📚 Машиналык котормо системаларын салыштырма талдоо")
+# DESCRIPTION
+st.subheader("📚 NLP жана Machine Translation Analysis")
 
 st.write(
     """
-    Бул NLP долбоору Google Translate, DeepL жана
-    Yandex Translate аркылуу:
-    
+    Бул долбоор Google Translate, DeepL жана
+    Yandex Translate системаларын салыштырат.
+
+    Система:
     - 😂 мемдерди
-    - 🧠 психологиялык терминдерди
-    - 💼 business English сөздөрүн
-    - 🌍 социалдык тармактардагы сленгдерди
-    - 🎮 gaming slang сөздөрүн
+    - 📱 интернет сленгди
+    - 🎮 оюн терминдерин
+    - 💔 эмоционалдык сөздөрдү
     - 📖 идиомаларды
     - 🇰🇬 кыргыз макал-лакаптарын
-    
-    талдайт жана салыштырат.
+    анализдейт.
     """
 )
 
-# INFO
-st.info(
-    "💡 Машиналык котормо системалары көбүнчө "
-    "сленгдерди жана маданий сөз айкаштарын туура эмес которот."
-)
-
-# DATA
+# LOAD CSV
 df = pd.read_csv("corpus.csv")
+
+# CATEGORY TRANSLATION
+df["Category"] = df["Category"].replace({
+    "Business English": "💼 Бизнес англис тили",
+    "Psychology": "🧠 Психология",
+    "Emotional Expressions": "💔 Эмоционалдык сөздөр",
+    "Memes": "😂 Мемдер",
+    "Internet Slang": "🌍 Интернет сленги",
+    "Social Media": "📱 Социалдык тармактар",
+    "Gaming Slang": "🎮 Оюн сленги",
+    "Idioms": "📖 Идиомалар",
+    "Kyrgyz Proverbs": "🇰🇬 Кыргыз макал-лакаптары",
+    "Kyrgyz Expressions": "🗣 Кыргыз сөз айкаштары",
+    "Technical NLP": "🤖 NLP терминдери"
+})
 
 # METRICS
 col1, col2, col3 = st.columns(3)
@@ -118,7 +146,7 @@ with col3:
     st.metric("📚 Категориялар", df["Category"].nunique())
 
 # SEARCH
-search = st.text_input("🔍 Сөз издөө")
+search = st.text_input("🔍 Издөө")
 
 if search:
     df = df[df["Expression"].str.contains(search, case=False, na=False)]
@@ -135,7 +163,7 @@ else:
     filtered_df = df
 
 category = st.selectbox(
-    "📚 Категорияны тандаңыз:",
+    "📚 Категория:",
     ["All"] + sorted(filtered_df["Category"].unique())
 )
 
@@ -145,21 +173,21 @@ if category != "All":
     ]
 
 expression = st.selectbox(
-    "🧠 Сөз айкашын тандаңыз:",
+    "🧠 Сөз айкашы:",
     filtered_df["Expression"]
 )
 
 # BUTTON
-if st.button("✨ Анализди көрсөтүү"):
+if st.button("✨ Анализ көрсөтүү"):
 
     row = filtered_df[
         filtered_df["Expression"] == expression
     ].iloc[0]
 
-    st.subheader("📝 Сөз айкашы")
+    st.subheader("📝 Expression")
     st.success(row["Expression"])
 
-    st.subheader("👩 Адам тарабынан которулган")
+    st.subheader("👩 Human Translation")
     st.info(row["Human Translation"])
 
     st.subheader("🤖 Google Translate")
@@ -171,24 +199,21 @@ if st.button("✨ Анализди көрсөтүү"):
     st.subheader("🟡 Yandex Translate")
     st.write(row["Yandex Translate"])
 
-    st.subheader("🌍 Тил")
+    st.subheader("🌍 Language")
     st.write(row["Language"])
 
-    st.subheader("📚 Категория")
+    st.subheader("📚 Category")
     st.write(row["Category"])
 
-    st.subheader("💬 Комментарий")
+    st.subheader("💬 Comment")
     st.warning(row["Comment"])
-
-# DIVIDER
-st.divider()
 
 # PIE CHART
 st.subheader("📊 Категориялар боюнча бөлүштүрүү")
 
 category_counts = df["Category"].value_counts()
 
-fig1, ax1 = plt.subplots(figsize=(7,7))
+fig1, ax1 = plt.subplots(figsize=(4,4))
 
 category_counts.plot.pie(
     autopct='%1.1f%%',
@@ -197,8 +222,8 @@ category_counts.plot.pie(
 
 st.pyplot(fig1)
 
-# TRANSLATOR RANKING
-st.subheader("🏆 Котормо системаларынын рейтинги")
+# BAR CHART
+st.subheader("🏆 Translation System Ranking")
 
 translator_scores = pd.DataFrame({
     "Translator": [
@@ -218,16 +243,16 @@ st.bar_chart(
 )
 
 # PROGRESS
-st.subheader("⚡ NLP долбоорунун даярдык деңгээли")
+st.subheader("⚡ Project Progress")
 
 st.progress(92)
 
 st.caption(
-    "💜 Корпустун жана NLP долбоорунун даярдык көрсөткүчү"
+    "💜 NLP corpus and machine translation analysis project"
 )
 
 # TABLE
-st.subheader("📚 Изилдөө корпусу")
+st.subheader("📚 Research Corpus")
 
 styled_df = filtered_df.style.background_gradient(
     cmap="Purples"
@@ -239,9 +264,11 @@ st.dataframe(
 )
 
 # FOOTER
+st.markdown("---")
+
 st.markdown(
     """
-    ---
-    💜 Streamlit NLP Project | Machine Translation Analysis System
+    💜 Streamlit NLP Project  
+    🌐 Machine Translation Analysis System
     """
 )
