@@ -1,3 +1,4 @@
+```python
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,12 +9,13 @@ st.set_page_config(
     layout="wide"
 )
 
-# STYLE
+# ================= STYLE =================
+
 st.markdown(
     """
     <style>
 
-    html, body, [class*="css"]  {
+    html, body, [class*="css"] {
         font-family: 'Trebuchet MS', sans-serif;
     }
 
@@ -52,7 +54,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# SIDEBAR
+# ================= SIDEBAR =================
+
 st.sidebar.image(
     "https://kstu.kg/fileadmin/user_upload/russkii_var.png",
     width=220
@@ -82,7 +85,8 @@ st.sidebar.info(
     """
 )
 
-# TITLE
+# ================= TITLE =================
+
 st.markdown(
     """
     <h1>🌐 Машиналык котормо анализатору</h1>
@@ -90,14 +94,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# IMAGE
+# ================= IMAGE =================
+
 st.image(
     "https://miro.medium.com/max/1400/1*YM2HXc7f4v02pZBEO8h-qw.png",
-    width=500
+    width=250
 )
 
-# DESCRIPTION
-st.subheader("📚 NLP жана Machine Translation Analysis")
+# ================= DESCRIPTION =================
 
 st.write(
     """
@@ -111,14 +115,17 @@ st.write(
     - 💔 эмоционалдык сөздөрдү
     - 📖 идиомаларды
     - 🇰🇬 кыргыз макал-лакаптарын
+
     анализдейт.
     """
 )
 
-# LOAD CSV
+# ================= LOAD DATA =================
+
 df = pd.read_csv("corpus.csv")
 
-# CATEGORY TRANSLATION
+# ================= CATEGORY TRANSLATION =================
+
 df["Category"] = df["Category"].replace({
     "Business English": "💼 Бизнес англис тили",
     "Psychology": "🧠 Психология",
@@ -133,41 +140,46 @@ df["Category"] = df["Category"].replace({
     "Technical NLP": "🤖 NLP терминдери"
 })
 
-# METRICS
+# ================= METRICS =================
+
+language_count = 3
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.metric("📄 Жалпы мисалдар", len(df))
 
 with col2:
-    st.metric("🌍 Тилдер", df["Language"].nunique())
+    st.metric("🌍 Тилдер", language_count)
 
 with col3:
     st.metric("📚 Категориялар", df["Category"].nunique())
 
-# SEARCH
+# ================= SEARCH =================
+
 search = st.text_input("🔍 Издөө")
 
 if search:
     df = df[df["Expression"].str.contains(search, case=False, na=False)]
 
-# FILTERS
+# ================= FILTERS =================
+
 language = st.selectbox(
     "🌍 Тилди тандаңыз:",
-    ["All"] + sorted(df["Language"].unique())
+    ["Бардыгы"] + sorted(df["Language"].unique())
 )
 
-if language != "All":
+if language != "Бардыгы":
     filtered_df = df[df["Language"] == language]
 else:
     filtered_df = df
 
 category = st.selectbox(
     "📚 Категория:",
-    ["All"] + sorted(filtered_df["Category"].unique())
+    ["Бардыгы"] + sorted(filtered_df["Category"].unique())
 )
 
-if category != "All":
+if category != "Бардыгы":
     filtered_df = filtered_df[
         filtered_df["Category"] == category
     ]
@@ -177,93 +189,168 @@ expression = st.selectbox(
     filtered_df["Expression"]
 )
 
-# BUTTON
-if st.button("✨ Анализ көрсөтүү"):
+# ================= TABS =================
 
-    row = filtered_df[
-        filtered_df["Expression"] == expression
-    ].iloc[0]
+tab1, tab2, tab3, tab4 = st.tabs([
+    "📊 Анализ",
+    "📚 Корпус",
+    "📈 Диаграммалар",
+    "ℹ️ Долбоор жөнүндө"
+])
 
-    st.subheader("📝 Expression")
-    st.success(row["Expression"])
+# ================= TAB 1 =================
 
-    st.subheader("👩 Human Translation")
-    st.info(row["Human Translation"])
+with tab1:
 
-    st.subheader("🤖 Google Translate")
-    st.write(row["Google Translate"])
+    st.subheader("🧠 Котормо анализи")
 
-    st.subheader("💙 DeepL")
-    st.write(row["DeepL"])
+    if st.button("✨ Анализ көрсөтүү"):
 
-    st.subheader("🟡 Yandex Translate")
-    st.write(row["Yandex Translate"])
+        row = filtered_df[
+            filtered_df["Expression"] == expression
+        ].iloc[0]
 
-    st.subheader("🌍 Language")
-    st.write(row["Language"])
+        col1, col2 = st.columns(2)
 
-    st.subheader("📚 Category")
-    st.write(row["Category"])
+        with col1:
 
-    st.subheader("💬 Comment")
-    st.warning(row["Comment"])
+            st.info(
+                f"📝 Сөз айкашы:\n\n{row['Expression']}"
+            )
 
-# PIE CHART
-st.subheader("📊 Категориялар боюнча бөлүштүрүү")
+            st.success(
+                f"👩 Адам котормосу:\n\n{row['Human Translation']}"
+            )
 
-category_counts = df["Category"].value_counts()
+            st.write(
+                f"🤖 Google Translate:\n\n{row['Google Translate']}"
+            )
 
-fig1, ax1 = plt.subplots(figsize=(4,4))
+        with col2:
 
-category_counts.plot.pie(
-    autopct='%1.1f%%',
-    ax=ax1
-)
+            st.write(
+                f"💙 DeepL:\n\n{row['DeepL']}"
+            )
 
-st.pyplot(fig1)
+            st.write(
+                f"🟡 Yandex Translate:\n\n{row['Yandex Translate']}"
+            )
 
-# BAR CHART
-st.subheader("🏆 Translation System Ranking")
+            st.warning(
+                f"💬 Комментарий:\n\n{row['Comment']}"
+            )
 
-translator_scores = pd.DataFrame({
-    "Translator": [
-        "DeepL",
-        "Google Translate",
-        "Yandex Translate"
-    ],
-    "Accuracy": [
-        92,
-        84,
-        71
+# ================= TAB 2 =================
+
+with tab2:
+
+    st.subheader("📚 Изилдөө корпусу")
+
+    filtered_df_display = filtered_df.rename(columns={
+        "Expression": "Сөз айкашы",
+        "Human Translation": "Адам котормосу",
+        "Google Translate": "Google Translate",
+        "DeepL": "DeepL",
+        "Yandex Translate": "Yandex Translate",
+        "Language": "Тил",
+        "Category": "Категория",
+        "Comment": "Комментарий"
+    })
+
+    styled_df = filtered_df_display.style.background_gradient(
+        cmap="Purples"
+    )
+
+    st.dataframe(
+        styled_df,
+        use_container_width=True
+    )
+
+# ================= TAB 3 =================
+
+with tab3:
+
+    st.subheader("📊 Категориялар боюнча бөлүштүрүү")
+
+    category_counts = df["Category"].value_counts()
+
+    clean_labels = [
+        label.replace("💼", "")
+             .replace("🧠", "")
+             .replace("💔", "")
+             .replace("😂", "")
+             .replace("🌍", "")
+             .replace("📱", "")
+             .replace("🎮", "")
+             .replace("📖", "")
+             .replace("🇰🇬", "")
+             .replace("🗣", "")
+             .replace("🤖", "")
+        for label in category_counts.index
     ]
-})
 
-st.bar_chart(
-    translator_scores.set_index("Translator")
-)
+    fig1, ax1 = plt.subplots(figsize=(5,5))
 
-# PROGRESS
-st.subheader("⚡ Project Progress")
+    ax1.pie(
+        category_counts,
+        labels=clean_labels,
+        autopct='%1.1f%%'
+    )
 
-st.progress(92)
+    st.pyplot(fig1)
 
-st.caption(
-    "💜 NLP corpus and machine translation analysis project"
-)
+    st.subheader("🏆 Котормо системаларынын рейтинги")
 
-# TABLE
-st.subheader("📚 Research Corpus")
+    translator_scores = pd.DataFrame({
+        "Котормочу": [
+            "DeepL",
+            "Google Translate",
+            "Yandex Translate"
+        ],
+        "Тактык": [
+            92,
+            84,
+            71
+        ]
+    })
 
-styled_df = filtered_df.style.background_gradient(
-    cmap="Purples"
-)
+    st.bar_chart(
+        translator_scores.set_index("Котормочу")
+    )
 
-st.dataframe(
-    styled_df,
-    use_container_width=True
-)
+# ================= TAB 4 =================
 
-# FOOTER
+with tab4:
+
+    st.subheader("ℹ️ Долбоор жөнүндө")
+
+    st.write(
+        """
+        Бул NLP долбоору машиналык котормо
+        системаларын салыштырат.
+
+        Изилдөөдө:
+        - Google Translate
+        - DeepL
+        - Yandex Translate
+
+        системалары колдонулган.
+
+        Долбоор интернет сленг,
+        мемдер, эмоционалдык сөздөр,
+        кыргыз макал-лакаптары жана
+        идиомаларды анализдейт.
+        """
+    )
+
+    st.progress(92)
+
+    st.success(
+        "💜 Компьютердик лингвистика боюнча дипломдук долбоор"
+    )
+
+# ================= FOOTER =================
+
 st.markdown("---")
 
 st.markdown(
@@ -271,4 +358,91 @@ st.markdown(
     💜 Streamlit NLP Project  
     🌐 Machine Translation Analysis System
     """
+)
+```
+# ================= STYLE =================
+
+st.markdown(
+    """
+    <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .stApp {
+        background: linear-gradient(
+            135deg,
+            #fff0f6,
+            #fce4ec,
+            #f8bbd0
+        );
+    }
+
+    h1 {
+        color: #ff4f8b;
+        font-size: 58px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    h2, h3 {
+        color: #d63384;
+        font-weight: 600;
+    }
+
+    section[data-testid="stSidebar"] {
+        background-color: #ffe3ec;
+    }
+
+    .stButton>button {
+        background: linear-gradient(
+            90deg,
+            #ff6fa5,
+            #ff8fab
+        );
+
+        color: white;
+        border-radius: 15px;
+        height: 3.2em;
+        width: 250px;
+        font-size: 18px;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 4px 15px rgba(255,105,135,0.3);
+    }
+
+    .stButton>button:hover {
+        background: linear-gradient(
+            90deg,
+            #ff4f8b,
+            #ff6fa5
+        );
+
+        color: white;
+        transform: scale(1.03);
+        transition: 0.3s;
+    }
+
+    div[data-baseweb="select"] {
+        background-color: white;
+        border-radius: 12px;
+    }
+
+    .stTextInput input {
+        border-radius: 12px;
+        border: 2px solid #ffb3c6;
+    }
+
+    .stMetric {
+        background-color: rgba(255,255,255,0.6);
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
 )
