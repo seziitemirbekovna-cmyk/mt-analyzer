@@ -275,7 +275,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
     font-family:Georgia;
     ">
 
-    АВТОР ЖӨНҮНДӨ ✨
+    ДОЛБООР ЖӨНҮНДӨ ✨
 
     </h1>
 
@@ -296,9 +296,9 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    🏫 Кыргыз Мамлекеттик
+    🏫 Исхак Раззаков атындагы Кыргыз Мамлекеттик
     Техникалык Университети
-    им. И. Раззакова
+    
 
     <br>
 
@@ -352,9 +352,9 @@ elif page == "🧠 Котормо анализи":
 
         [
 
-            "🇰🇬 Кыргызча",
-            "🇬🇧 English",
-            "🇷🇺 Русский"
+            "Кыргызча",
+            "English",
+            "Русский"
 
         ]
 
@@ -364,7 +364,7 @@ elif page == "🧠 Котормо анализи":
 
     # ================= LANGUAGE FILTER =================
 
-    if language == "🇰🇬 Кыргызча":
+    if language == "Кыргызча":
 
         filtered_df = filtered_df[
             filtered_df["Language"].astype(str).str.contains(
@@ -374,7 +374,7 @@ elif page == "🧠 Котормо анализи":
             )
         ]
 
-    elif language == "🇬🇧 English":
+    elif language == "English":
 
         filtered_df = filtered_df[
             filtered_df["Language"].astype(str).str.contains(
@@ -384,7 +384,7 @@ elif page == "🧠 Котормо анализи":
             )
         ]
 
-    elif language == "🇷🇺 Русский":
+    elif language == "Русский":
 
         filtered_df = filtered_df[
             filtered_df["Language"].astype(str).str.contains(
@@ -462,7 +462,7 @@ elif page == "🧠 Котормо анализи":
 
             <div class="card blue-card">
 
-            <h2>💬 Сөз Айкашы</h2>
+            <h2>💬 Мисалдар</h2>
 
             <p style="font-size:22px;">
             {row['Expression']}
