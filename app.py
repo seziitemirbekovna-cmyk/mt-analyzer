@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 # ================= PAGE =================
 
 st.set_page_config(
-    page_title="Machine Translation Research",
-    page_icon="🧠",
+    page_title="NLP Translation Project",
+    page_icon="✨",
     layout="wide"
 )
 
@@ -15,54 +15,72 @@ st.set_page_config(
 st.markdown("""
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 html, body, [class*="css"]{
     font-family: 'Poppins', sans-serif;
-    background-color: #fff8fc;
 }
 
-.main {
-    background: linear-gradient(
+.main{
+    background:
+    linear-gradient(
         to bottom,
         #fff8fc,
-        #ffeef7
+        #ffeef6,
+        #fff8fc
     );
 }
 
-h1, h2, h3 {
-    color:#b83280;
+.block-container{
+    padding-top:2rem;
+    padding-bottom:2rem;
 }
 
-.stButton>button {
-    background-color:#d63384;
+section[data-testid="stSidebar"]{
+    background:#fff0f7;
+}
+
+h1,h2,h3{
+    color:#c2185b;
+}
+
+.stButton>button{
+    background:linear-gradient(
+        90deg,
+        #ff4fa3,
+        #d63384
+    );
     color:white;
     border:none;
-    border-radius:15px;
-    padding:12px 28px;
+    border-radius:18px;
+    padding:14px 35px;
     font-size:17px;
     font-weight:600;
+    transition:0.3s;
 }
 
-.stButton>button:hover {
-    background-color:#b83280;
+.stButton>button:hover{
+    transform:scale(1.03);
+    background:#c2185b;
     color:white;
 }
 
-[data-testid="stSidebar"] {
-    background-color:#fff0f7;
+[data-testid="stMetricValue"]{
+    color:#c2185b;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# ================= TOP =================
+# ================= HEADER =================
 
-col1, col2, col3 = st.columns([1,4,1])
+col1, col2 = st.columns([1,4])
 
 with col1:
 
     st.image(
         "https://kstu.kg/fileadmin/user_upload/russkii_var.png",
-        width=140
+        width=170
     )
 
 with col2:
@@ -71,10 +89,12 @@ with col2:
     <div style='text-align:center;'>
 
     <h1 style='
-        font-size:55px;
+        font-size:64px;
         font-family:Georgia;
+        font-weight:700;
         line-height:1.3;
         color:#c2185b;
+        margin-top:15px;
     '>
 
     Машиналык Котормо
@@ -84,12 +104,13 @@ with col2:
 
     <p style='
         font-size:24px;
-        color:#7a4f65;
+        color:#7a5066;
         margin-top:-10px;
+        line-height:1.9;
     '>
 
     Компьютердик Лингвистика боюнча
-    Дипломдук Долбоор 🎓
+    Дипломдук Долбоор ✨
 
     </p>
 
@@ -105,32 +126,34 @@ left, right = st.columns([1,2.2])
 with left:
 
     st.image(
-        "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
-        width=260
+        "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
+        width=290
     )
 
 with right:
 
     st.markdown("""
     <div style="
-        background-color:rgba(255,255,255,0.75);
-        padding:35px;
-        border-radius:30px;
-        box-shadow:0 6px 20px rgba(0,0,0,0.08);
+        background:rgba(255,255,255,0.78);
+        padding:42px;
+        border-radius:35px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.08);
+        backdrop-filter:blur(10px);
     ">
 
     <h2 style="
+        font-size:42px;
         color:#d63384;
-        font-size:38px;
         font-family:Georgia;
+        margin-bottom:25px;
     ">
 
-    NLP & Translation Research 🌸
+    NLP & Machine Translation ✨
 
     </h2>
 
     <p style="
-        font-size:19px;
+        font-size:20px;
         line-height:2;
         color:#4a4a4a;
     ">
@@ -138,23 +161,23 @@ with right:
     Бул долбоор Google Translate,
     DeepL жана Yandex Translate
     системаларынын котормо сапатын
-    салыштырып анализдейт.
+    салыштырып анализдөөгө арналган.
 
     </p>
 
     <div style="
+        margin-top:25px;
+        line-height:2.3;
         font-size:18px;
-        line-height:2.2;
-        color:#5a5a5a;
-        margin-top:20px;
+        color:#5f4a55;
     ">
 
-    ✨ Интернет Сленги <br>
-    ✨ Мемдер <br>
-    ✨ Идиомалар <br>
-    ✨ NLP Терминдери <br>
-    ✨ Кыргыз Макал-Лакаптары <br>
-    ✨ Социалдык Тармактар
+    💖 Интернет Сленги <br>
+    💖 Мемдер <br>
+    💖 Идиомалар <br>
+    💖 NLP Терминдери <br>
+    💖 Кыргыз Макал-Лакаптары <br>
+    💖 Социалдык Тармактар
 
     </div>
 
@@ -164,17 +187,26 @@ with right:
 # ================= SIDEBAR =================
 
 st.sidebar.image(
-    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-    width=130
+    "https://kstu.kg/fileadmin/user_upload/russkii_var.png",
+    width=180
 )
 
-st.sidebar.title("Автор Жөнүндө 💖")
+st.sidebar.markdown("""
+<h2 style='
+    color:#c2185b;
+    text-align:center;
+'>
+
+🎓 Долбоор Жөнүндө
+
+</h2>
+""", unsafe_allow_html=True)
 
 st.sidebar.info("""
-👩‍🎓 Аты-Жөнү:
+✨ Автор:
 Сезим Темирбековна
 
-🎓 Адистиги:
+🎓 Адистик:
 Компьютердик Лингвистика
 
 🏫 Университет:
@@ -201,15 +233,18 @@ if start:
     # ================= LOAD DATA =================
 
     try:
+
         df = pd.read_csv("corpus.csv")
 
     except:
+
         st.error("❌ corpus.csv файлы табылган жок")
         st.stop()
 
     # ================= CATEGORY =================
 
     df["Category"] = df["Category"].replace({
+
         "Business English": "Бизнес Англис Тили",
         "Psychology": "Психология",
         "Emotional Expressions": "Эмоционалдык Сөздөр",
@@ -221,21 +256,28 @@ if start:
         "Kyrgyz Proverbs": "Кыргыз Макал-Лакаптары",
         "Kyrgyz Expressions": "Кыргыз Сөз Айкаштары",
         "Technical NLP": "NLP Терминдери"
+
     })
 
     # ================= METRICS =================
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns(3)
+    c1, c2, c3 = st.columns(3)
 
-    with col1:
-        st.metric("📚 Жалпы Мисалдар", len(df))
+    with c1:
+        st.metric(
+            "📚 Жалпы Мисалдар",
+            len(df)
+        )
 
-    with col2:
-        st.metric("🌍 Тилдер", 3)
+    with c2:
+        st.metric(
+            "🌍 Тилдер",
+            3
+        )
 
-    with col3:
+    with c3:
         st.metric(
             "🧩 Категориялар",
             df["Category"].nunique()
@@ -246,10 +288,11 @@ if start:
     st.markdown("## 🔎 Издөө")
 
     search = st.text_input(
-        "Сөз же фраза жазыңыз"
+        "Сөз же сүйлөм жазыңыз"
     )
 
     if search:
+
         df = df[
             df["Expression"].str.contains(
                 search,
@@ -261,14 +304,18 @@ if start:
     # ================= LANGUAGE =================
 
     language_map = {
+
         "English": "Англисче",
         "Russian": "Орусча",
         "Kyrgyz": "Кыргызча"
+
     }
 
     language_options = ["Бардыгы"] + [
+
         language_map.get(lang, lang)
         for lang in sorted(df["Language"].unique())
+
     ]
 
     selected_language = st.selectbox(
@@ -289,6 +336,7 @@ if start:
         ]
 
     else:
+
         filtered_df = df
 
     # ================= CATEGORY FILTER =================
@@ -316,19 +364,25 @@ if start:
     # ================= TABS =================
 
     tab1, tab2, tab3, tab4 = st.tabs([
+
         "📖 Анализ",
         "📚 Корпус",
         "📊 Диаграммалар",
         "💡 Долбоор"
+
     ])
 
     # ================= TAB 1 =================
 
     with tab1:
 
-        st.subheader("Котормо Анализи ✨")
+        st.subheader(
+            "Котормо Анализи ✨"
+        )
 
-        if st.button("📌 Анализ Көрсөтүү"):
+        if st.button(
+            "📌 Анализ Көрсөтүү"
+        ):
 
             row = filtered_df[
                 filtered_df["Expression"] == expression
@@ -368,9 +422,12 @@ if start:
 
     with tab2:
 
-        st.subheader("Изилдөө Корпусу 📚")
+        st.subheader(
+            "Изилдөө Корпусу 📚"
+        )
 
         display_df = filtered_df.rename(columns={
+
             "Expression": "Сөз Айкашы",
             "Human Translation": "Адам Котормосу",
             "Google Translate": "Google Translate",
@@ -379,6 +436,7 @@ if start:
             "Language": "Тил",
             "Category": "Категория",
             "Comment": "Комментарий"
+
         })
 
         styled_df = display_df.style.background_gradient(
@@ -398,7 +456,9 @@ if start:
             "Категориялар Боюнча Бөлүштүрүү 📊"
         )
 
-        category_counts = df["Category"].value_counts()
+        category_counts = df[
+            "Category"
+        ].value_counts()
 
         fig1, ax1 = plt.subplots(
             figsize=(6,6)
@@ -417,16 +477,19 @@ if start:
         )
 
         translator_scores = pd.DataFrame({
+
             "Система": [
                 "DeepL",
                 "Google Translate",
                 "Yandex Translate"
             ],
+
             "Тактык": [
                 92,
                 84,
                 71
             ]
+
         })
 
         st.bar_chart(
@@ -439,9 +502,12 @@ if start:
 
     with tab4:
 
-        st.subheader("Долбоор Жөнүндө 💖")
+        st.subheader(
+            "Долбоор Жөнүндө 💖"
+        )
 
         st.write("""
+
         Бул дипломдук долбоор
         машиналык котормо
         системаларын анализдөөгө арналган.
@@ -453,6 +519,7 @@ if start:
         • Yandex Translate  
 
         системалары колдонулган.
+
         """)
 
         st.progress(92)
@@ -466,12 +533,12 @@ if start:
 st.markdown("---")
 
 st.markdown("""
-<div style="
+<div style='
     text-align:center;
-    color:gray;
-    font-size:17px;
-    padding:10px;
-">
+    color:#7a5066;
+    font-size:18px;
+    padding:15px;
+'>
 
 ✨ Machine Translation Research Project ✨
 
