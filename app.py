@@ -2,548 +2,346 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ================= PAGE =================
-
 st.set_page_config(
     page_title="АКЫЛДУУ КОТОРМО СИСТЕМАСЫ",
     page_icon="✨",
     layout="wide"
 )
 
-# ================= STYLE =================
-
 st.markdown("""
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-html, body, [class*="css"]{
-    font-family:'Poppins', sans-serif;
+html, body, [class*="css"] {
+    font-family: 'Poppins', sans-serif;
 }
 
-.main{
-    background:
-    linear-gradient(
-        to bottom,
-        #fff7fb,
-        #ffeef6,
-        #fff7fb
-    );
+.main {
+    background: linear-gradient(135deg, #fff7fb, #ffeaf4, #fff7fb);
 }
 
-.block-container{
-    padding-top:2rem;
-    padding-bottom:2rem;
+.block-container {
+    padding-top: 3rem;
 }
 
-section[data-testid="stSidebar"]{
-    background:#fff1f7;
+section[data-testid="stSidebar"] {
+    background: #fff0f7;
 }
 
-h1,h2,h3{
-    color:#c2185b;
+h1, h2, h3 {
+    color: #c2185b;
 }
 
-.stButton>button{
-    background:
-    linear-gradient(
-        90deg,
-        #ff4fa3,
-        #d63384
-    );
-
-    color:white;
-    border:none;
-    border-radius:18px;
-    padding:14px 36px;
-    font-size:17px;
-    font-weight:600;
-    transition:0.3s;
+.stButton>button {
+    background: linear-gradient(90deg, #ff4fa3, #d63384);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 14px 38px;
+    font-size: 17px;
+    font-weight: 600;
 }
 
-.stButton>button:hover{
-    transform:scale(1.03);
-    background:#c2185b;
-    color:white;
+.stButton>button:hover {
+    background: #c2185b;
+    color: white;
+    transform: scale(1.03);
 }
 
-[data-testid="stMetricValue"]{
-    color:#c2185b;
+[data-testid="stMetricValue"] {
+    color: #c2185b;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
-# ================= HEADER =================
+# ================= БАШКЫ БЕТ =================
 
-top1, top2 = st.columns([1,4])
+st.markdown("""
+<div style="
+    text-align:center;
+    padding:55px 30px;
+    border-radius:40px;
+    background:rgba(255,255,255,0.75);
+    box-shadow:0 15px 40px rgba(194,24,91,0.12);
+">
 
-with top1:
+<h1 style="
+    font-size:58px;
+    font-family:Georgia, serif;
+    letter-spacing:2px;
+    line-height:1.25;
+    margin-bottom:20px;
+">
+АКЫЛДУУ КОТОРМО<br>
+СИСТЕМАСЫ
+</h1>
 
-    st.image(
-        "https://kstu.kg/fileadmin/user_upload/russkii_var.png",
-        width=140
-    )
+<p style="
+    font-size:22px;
+    color:#7a5066;
+    line-height:1.8;
+">
+Компьютердик лингвистика багыты боюнча<br>
+машиналык котормону салыштырма талдоо долбоору
+</p>
 
-with top2:
-
-    st.markdown("""
-    <div style='
-        text-align:center;
-        margin-top:10px;
-    '>
-
-    <h1 style='
-        font-size:56px;
-        font-family:Georgia;
-        font-weight:700;
-        color:#c2185b;
-        line-height:1.3;
-        letter-spacing:2px;
-    '>
-
-    АКЫЛДУУ КОТОРМО
-    СИСТЕМАСЫ
-
-    </h1>
-
-    <p style='
-        font-size:21px;
-        color:#7a5066;
-        margin-top:-10px;
-        line-height:1.9;
-    '>
-
-    Компьютердик Лингвистика боюнча
-    Дипломдук Долбоор ✨
-
-    </p>
-
-    </div>
-    """, unsafe_allow_html=True)
-
-# ================= HERO =================
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown("""
 <div style="
-    background:rgba(255,255,255,0.78);
-    padding:45px;
+    background:rgba(255,255,255,0.82);
+    padding:38px;
     border-radius:35px;
     box-shadow:0 10px 30px rgba(0,0,0,0.08);
-    backdrop-filter:blur(10px);
 ">
 
 <h2 style="
-    font-size:38px;
-    color:#d63384;
     text-align:center;
-    font-family:Georgia;
-    margin-bottom:25px;
+    font-size:34px;
+    font-family:Georgia, serif;
 ">
-
-NLP ЖАНА МАШИНАЛЫК КОТОРМО ✨
-
+ДОЛБООРДУН НЕГИЗГИ БАГЫТТАРЫ ✨
 </h2>
 
 <p style="
-    font-size:19px;
-    line-height:2.1;
-    color:#4a4a4a;
     text-align:center;
+    font-size:19px;
+    color:#4a4a4a;
+    line-height:2;
 ">
-
-Бул долбоор Google Translate,
-DeepL жана Yandex Translate
-системаларынын котормо сапатын
-салыштырып анализдөөгө арналган.
-
+Бул система Google Translate, DeepL жана Yandex Translate
+аркылуу алынган котормолорду адам котормосу менен салыштырып,
+алардын тактыгын жана маанилик өзгөчөлүктөрүн анализдөөгө арналган.
 </p>
-
-<br>
 
 <div style="
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    font-size:18px;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:18px;
+    margin-top:30px;
+    font-size:17px;
     color:#5f4a55;
-    line-height:2;
+    text-align:center;
 ">
 
-<div>💖 Интернет Сленги</div>
-<div>💖 Мемдер</div>
-
-<div>💖 Идиомалар</div>
-<div>💖 NLP Терминдери</div>
-
-<div>💖 Кыргыз Макал-Лакаптары</div>
-<div>💖 Социалдык Тармактар</div>
+<div>🌐 Интернет сленги</div>
+<div>💬 Мемдер</div>
+<div>📚 Идиомалар</div>
+<div>🧠 NLP терминдери</div>
+<div>🇰🇬 Кыргыз макал-лакаптары</div>
+<div>📱 Социалдык тармактар</div>
 
 </div>
-
 </div>
 """, unsafe_allow_html=True)
 
-# ================= SIDEBAR =================
+# ================= КАПТАЛ МЕНЮ =================
 
-st.sidebar.image(
-    "https://kstu.kg/fileadmin/user_upload/russkii_var.png",
-    width=180
-)
-
-st.sidebar.markdown("""
-<h2 style='
-    color:#c2185b;
-    text-align:center;
-'>
-
-ДОЛБООР ЖӨНҮНДӨ ✨
-
-</h2>
-""", unsafe_allow_html=True)
+st.sidebar.markdown("## ДОЛБООР ЖӨНҮНДӨ ✨")
 
 st.sidebar.info("""
 👩‍🎓 Автор:
 Сезим Темирбековна
 
 🎓 Адистик:
-Компьютердик Лингвистика
+Компьютердик лингвистика
 
 🏫 Университет:
-Кыргыз Мамлекеттик
-Техникалык Университети
+Кыргыз мамлекеттик техникалык университети
 
 💻 Институт:
-Маалыматтык Технологиялар Институту
+Маалыматтык технологиялар институту
 
-👩‍🏫 Илимий Жетекчи:
+👩‍🏫 Илимий жетекчи:
 Укуева Клара Акиновна
 """)
 
-# ================= BUTTON =================
-
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
 start = st.button("🚀 ДОЛБООРДУ АЧУУ")
 
-# ================= PROJECT =================
-
 if start:
 
-    # ================= DATA =================
-
     try:
-
         df = pd.read_csv("corpus.csv")
-
     except:
-
         st.error("❌ corpus.csv файлы табылган жок")
         st.stop()
 
-    # ================= CATEGORY =================
-
     df["Category"] = df["Category"].replace({
-
-        "Business English": "Бизнес Англис Тили",
+        "Business English": "Бизнес англис тили",
         "Psychology": "Психология",
-        "Emotional Expressions": "Эмоционалдык Сөздөр",
+        "Emotional Expressions": "Эмоционалдык сөздөр",
         "Memes": "Мемдер",
-        "Internet Slang": "Интернет Сленги",
-        "Social Media": "Социалдык Тармактар",
-        "Gaming Slang": "Оюн Сленги",
+        "Internet Slang": "Интернет сленги",
+        "Social Media": "Социалдык тармактар",
+        "Gaming Slang": "Оюн сленги",
         "Idioms": "Идиомалар",
-        "Kyrgyz Proverbs": "Кыргыз Макал-Лакаптары",
-        "Kyrgyz Expressions": "Кыргыз Сөз Айкаштары",
-        "Technical NLP": "NLP Терминдери"
-
+        "Kyrgyz Proverbs": "Кыргыз макал-лакаптары",
+        "Kyrgyz Expressions": "Кыргыз сөз айкаштары",
+        "Technical NLP": "NLP терминдери"
     })
-
-    # ================= METRICS =================
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     m1, m2, m3 = st.columns(3)
 
     with m1:
-        st.metric(
-            "📚 Жалпы Мисалдар",
-            len(df)
-        )
+        st.metric("📚 Жалпы мисалдар", len(df))
 
     with m2:
-        st.metric(
-            "🌍 Тилдер",
-            3
-        )
+        st.metric("🌍 Тилдер", 3)
 
     with m3:
-        st.metric(
-            "🧩 Категориялар",
-            df["Category"].nunique()
-        )
-
-    # ================= SEARCH =================
+        st.metric("🧩 Категориялар", df["Category"].nunique())
 
     st.markdown("## 🔎 ИЗДӨӨ")
 
-    search = st.text_input(
-        "Сөз же сүйлөм жазыңыз"
-    )
+    search = st.text_input("Сөз же сүйлөм жазыңыз")
 
     if search:
-
-        df = df[
-            df["Expression"].str.contains(
-                search,
-                case=False,
-                na=False
-            )
-        ]
-
-    # ================= LANGUAGE =================
+        df = df[df["Expression"].str.contains(search, case=False, na=False)]
 
     language_map = {
-
         "English": "Англисче",
         "Russian": "Орусча",
         "Kyrgyz": "Кыргызча"
-
     }
 
     language_options = ["Бардыгы"] + [
-
         language_map.get(lang, lang)
         for lang in sorted(df["Language"].unique())
-
     ]
 
-    selected_language = st.selectbox(
-        "🌍 ТИЛ",
-        language_options
-    )
+    selected_language = st.selectbox("🌍 Тилди тандаңыз", language_options)
 
-    reverse_map = {
-        v: k for k, v in language_map.items()
-    }
+    reverse_map = {v: k for k, v in language_map.items()}
 
     if selected_language != "Бардыгы":
-
         real_lang = reverse_map[selected_language]
-
-        filtered_df = df[
-            df["Language"] == real_lang
-        ]
-
+        filtered_df = df[df["Language"] == real_lang]
     else:
-
         filtered_df = df
 
-    # ================= CATEGORY FILTER =================
-
     category = st.selectbox(
-        "🧩 КАТЕГОРИЯ",
-        ["Бардыгы"] + sorted(
-            filtered_df["Category"].unique()
-        )
+        "🧩 Категорияны тандаңыз",
+        ["Бардыгы"] + sorted(filtered_df["Category"].unique())
     )
 
     if category != "Бардыгы":
+        filtered_df = filtered_df[filtered_df["Category"] == category]
 
-        filtered_df = filtered_df[
-            filtered_df["Category"] == category
-        ]
-
-    # ================= EXPRESSION =================
+    if filtered_df.empty:
+        st.warning("Маалымат табылган жок.")
+        st.stop()
 
     expression = st.selectbox(
-        "💬 СӨЗ АЙКАШЫ",
+        "💬 Сөз айкашын тандаңыз",
         filtered_df["Expression"]
     )
 
-    # ================= TABS =================
-
     tab1, tab2, tab3, tab4 = st.tabs([
-
-        "📖 АНАЛИЗ",
-        "📚 КОРПУС",
-        "📊 ДИАГРАММАЛАР",
-        "💡 ДОЛБООР"
-
+        "📖 Анализ",
+        "📚 Корпус",
+        "📊 Диаграммалар",
+        "💡 Долбоор"
     ])
 
-    # ================= TAB 1 =================
-
     with tab1:
+        st.subheader("Котормо анализи ✨")
 
-        st.subheader(
-            "КОТОРМО АНАЛИЗИ ✨"
-        )
-
-        if st.button(
-            "📌 АНАЛИЗ КӨРСӨТҮҮ"
-        ):
-
-            row = filtered_df[
-                filtered_df["Expression"] == expression
-            ].iloc[0]
+        if st.button("📌 Анализди көрсөтүү"):
+            row = filtered_df[filtered_df["Expression"] == expression].iloc[0]
 
             c1, c2 = st.columns(2)
 
             with c1:
-
-                st.info(
-                    f"💬 Сөз Айкашы:\n\n{row['Expression']}"
-                )
-
-                st.success(
-                    f"✅ Адам Котормосу:\n\n{row['Human Translation']}"
-                )
-
-                st.write(
-                    f"🌐 Google Translate:\n\n{row['Google Translate']}"
-                )
+                st.info(f"💬 Сөз айкашы:\n\n{row['Expression']}")
+                st.success(f"✅ Адам котормосу:\n\n{row['Human Translation']}")
+                st.write(f"🌐 Google Translate:\n\n{row['Google Translate']}")
 
             with c2:
-
-                st.write(
-                    f"🧠 DeepL:\n\n{row['DeepL']}"
-                )
-
-                st.write(
-                    f"📘 Yandex Translate:\n\n{row['Yandex Translate']}"
-                )
-
-                st.warning(
-                    f"📝 Комментарий:\n\n{row['Comment']}"
-                )
-
-    # ================= TAB 2 =================
+                st.write(f"🧠 DeepL:\n\n{row['DeepL']}")
+                st.write(f"📘 Yandex Translate:\n\n{row['Yandex Translate']}")
+                st.warning(f"📝 Түшүндүрмө:\n\n{row['Comment']}")
 
     with tab2:
-
-        st.subheader(
-            "ИЗИЛДӨӨ КОРПУСУ 📚"
-        )
+        st.subheader("Изилдөө корпусу 📚")
 
         display_df = filtered_df.rename(columns={
-
-            "Expression": "Сөз Айкашы",
-            "Human Translation": "Адам Котормосу",
+            "Expression": "Сөз айкашы",
+            "Human Translation": "Адам котормосу",
             "Google Translate": "Google Translate",
             "DeepL": "DeepL",
             "Yandex Translate": "Yandex Translate",
             "Language": "Тил",
             "Category": "Категория",
-            "Comment": "Комментарий"
-
+            "Comment": "Түшүндүрмө"
         })
 
-        styled_df = display_df.style.background_gradient(
-            cmap="RdPu"
-        )
-
         st.dataframe(
-            styled_df,
+            display_df.style.background_gradient(cmap="RdPu"),
             use_container_width=True
         )
 
-    # ================= TAB 3 =================
-
     with tab3:
+        st.subheader("Категориялар боюнча бөлүштүрүү 📊")
 
-        st.subheader(
-            "КАТЕГОРИЯЛАР БОЮНЧА БӨЛҮШТҮРҮҮ 📊"
-        )
+        category_counts = df["Category"].value_counts()
 
-        category_counts = df[
-            "Category"
-        ].value_counts()
-
-        fig1, ax1 = plt.subplots(
-            figsize=(6,6)
-        )
-
-        ax1.pie(
+        fig, ax = plt.subplots(figsize=(6, 6))
+        ax.pie(
             category_counts,
             labels=category_counts.index,
-            autopct='%1.1f%%'
+            autopct="%1.1f%%"
         )
 
-        st.pyplot(fig1)
+        st.pyplot(fig)
 
-        st.subheader(
-            "КОТОРМО СИСТЕМАЛАРЫНЫН РЕЙТИНГИ 🏆"
-        )
+        st.subheader("Котормо системаларынын тактык көрсөткүчү 🏆")
 
         translator_scores = pd.DataFrame({
-
-            "Система": [
+            "Котормо системасы": [
                 "DeepL",
                 "Google Translate",
                 "Yandex Translate"
             ],
-
             "Тактык": [
                 92,
                 84,
                 71
             ]
-
         })
 
         st.bar_chart(
-            translator_scores.set_index(
-                "Система"
-            )
+            translator_scores.set_index("Котормо системасы")
         )
-
-    # ================= TAB 4 =================
 
     with tab4:
-
-        st.subheader(
-            "ДОЛБООР ЖӨНҮНДӨ 💖"
-        )
+        st.subheader("Долбоор жөнүндө 💖")
 
         st.write("""
+        Бул дипломдук долбоор машиналык котормо системаларын
+        салыштырма анализдөөгө арналган.
 
-        Бул дипломдук долбоор
-        машиналык котормо
-        системаларын анализдөөгө арналган.
-
-        Изилдөөдө:
-
-        • Google Translate  
-        • DeepL  
-        • Yandex Translate  
-
-        системалары колдонулган.
-
+        Изилдөөдө Google Translate, DeepL жана Yandex Translate
+        системалары колдонулат.
         """)
 
         st.progress(92)
 
-        st.success(
-            "🎓 Компьютердик Лингвистика Долбоору"
-        )
-
-# ================= FOOTER =================
+        st.success("🎓 Компьютердик лингвистика боюнча долбоор")
 
 st.markdown("---")
 
 st.markdown("""
-<div style='
+<div style="
     text-align:center;
     color:#7a5066;
-    font-size:18px;
+    font-size:17px;
     padding:15px;
-'>
-
+">
 ✨ АКЫЛДУУ КОТОРМО СИСТЕМАСЫ ✨
-
 </div>
 """, unsafe_allow_html=True)
-
