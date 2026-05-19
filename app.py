@@ -10,78 +10,110 @@ st.set_page_config(
 
 # ================= STYLE =================
 
+# ================= TITLE =================
+
 st.markdown(
     """
-    <style>
+    <div style='text-align:center; margin-top:20px;'>
 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    <h1 style='
+        font-size:52px;
+        color:#b83280;
+        font-weight:700;
+        line-height:1.3;
+        font-family: Georgia, serif;
+    '>
 
-    html, body, [class*="css"] {
-        font-family: 'Poppins', sans-serif;
-    }
+    Машиналык Котормо
+    Жана NLP Изилдөө Системасы
 
-    .stApp {
-        background: linear-gradient(
-            135deg,
-            #fff0f6,
-            #fce4ec,
-            #f8bbd0
-        );
-    }
+    </h1>
 
-    h1 {
-        color: #d63384;
-        font-size: 60px;
-        font-weight: 700;
-        text-align: center;
-    }
+    <p style='
+        font-size:22px;
+        color:#7b506f;
+        margin-top:-10px;
+        font-family: Poppins, sans-serif;
+    '>
 
-    h2, h3 {
-        color: #c2185b;
-        font-weight: 600;
-    }
+    Компьютердик Лингвистика Боюнча
+    Дипломдук Долбоор
 
-    section[data-testid="stSidebar"] {
-        background-color: #ffe3ec;
-    }
+    </p>
 
-    .stButton>button {
-        background: linear-gradient(
-            90deg,
-            #ff6fa5,
-            #ff8fab
-        );
-
-        color: white;
-        border-radius: 15px;
-        height: 3.2em;
-        width: 260px;
-        font-size: 18px;
-        font-weight: 600;
-        border: none;
-    }
-
-    .stButton>button:hover {
-        background: linear-gradient(
-            90deg,
-            #ff4f8b,
-            #ff6fa5
-        );
-
-        color: white;
-    }
-
-    .stMetric {
-        background-color: rgba(255,255,255,0.5);
-        padding: 15px;
-        border-radius: 15px;
-    }
-
-    </style>
+    </div>
     """,
     unsafe_allow_html=True
 )
 
+# ================= HERO SECTION =================
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+col1, col2 = st.columns([1, 2.5])
+
+with col1:
+
+    st.image(
+        "https://miro.medium.com/max/1400/1*YM2HXc7f4v02pZBEO8h-qw.png",
+        width=170
+    )
+
+with col2:
+
+    st.markdown(
+        """
+        <div style="
+            background-color: rgba(255,255,255,0.55);
+            padding: 35px;
+            border-radius: 30px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        ">
+
+        <h2 style="
+            color:#d63384;
+            font-size:38px;
+            margin-bottom:20px;
+            font-family: Georgia, serif;
+        ">
+
+        Smart Translation Research
+
+        </h2>
+
+        <p style="
+            font-size:19px;
+            color:#4a4a4a;
+            line-height:1.9;
+        ">
+
+        Бул долбоор Google Translate,
+        DeepL жана Yandex Translate
+        системаларынын котормо сапатын
+        салыштырып анализдейт.
+
+        </p>
+
+        <div style="
+            font-size:18px;
+            color:#5c4b51;
+            line-height:2.1;
+            margin-top:20px;
+        ">
+
+        • Мемдер жана Интернет Сленги <br>
+        • Оюн Терминдери <br>
+        • Эмоционалдык Сөздөр <br>
+        • Идиомалар <br>
+        • Кыргыз Макал-Лакаптары <br>
+        • Социалдык Тармактардагы Сөздөр
+
+        </div>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 # ================= SIDEBAR =================
 
 st.sidebar.image(
