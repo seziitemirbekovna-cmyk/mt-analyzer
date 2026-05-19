@@ -7,9 +7,6 @@ st.set_page_config(
     page_icon="🌸",
     layout="wide"
 )
-
-# ================= STYLE =================
-
 # ================= TITLE =================
 
 st.markdown(
@@ -36,7 +33,7 @@ st.markdown(
         font-family: Poppins, sans-serif;
     '>
 
-    Компьютердик Лингвистика Боюнча
+    Компьютердик Лингвистика боюнча
     Дипломдук Долбоор
 
     </p>
