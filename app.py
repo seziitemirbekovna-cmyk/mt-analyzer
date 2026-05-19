@@ -100,14 +100,6 @@ h1,h2,h3{
     background:#f7efff;
 }
 
-.metric-box{
-    background:white;
-    padding:20px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -259,68 +251,6 @@ if page == "🏠 Башкы бет":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # ================= CARDS =================
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-
-        st.markdown("""
-
-        <div class="card blue-card">
-
-        <h2>🧠 AI Анализ</h2>
-
-        <p class="info-text">
-
-        Машиналык котормо
-        системаларын салыштыруу
-
-        </p>
-
-        </div>
-
-        """, unsafe_allow_html=True)
-
-    with c2:
-
-        st.markdown("""
-
-        <div class="card green-card">
-
-        <h2>📊 Аналитика</h2>
-
-        <p class="info-text">
-
-        Диаграммалар жана
-        статистикалык маалыматтар
-
-        </p>
-
-        </div>
-
-        """, unsafe_allow_html=True)
-
-    with c3:
-
-        st.markdown("""
-
-        <div class="card purple-card">
-
-        <h2>📚 Корпус</h2>
-
-        <p class="info-text">
-
-        Изилдөө маалыматтары
-
-        </p>
-
-        </div>
-
-        """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
     st.markdown("""
 
     <div class="card">
@@ -415,7 +345,6 @@ elif page == "🧠 Котормо анализи":
     <h1 style="
     text-align:center;
     font-size:60px;
-    font-family:Georgia;
     ">
 
     КОТОРМО АНАЛИЗИ 🧠
@@ -426,8 +355,6 @@ elif page == "🧠 Котормо анализи":
 
     """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
     # ================= LANGUAGE =================
 
     language = st.selectbox(
@@ -435,6 +362,7 @@ elif page == "🧠 Котормо анализи":
         "🌍 ТИЛ ТАНДОО",
 
         [
+            "Бардык тилдер",
             "Кыргызча",
             "English",
             "Русский"
@@ -444,22 +372,40 @@ elif page == "🧠 Котормо анализи":
 
     filtered_df = df.copy()
 
+    filtered_df["Language"] = (
+        filtered_df["Language"]
+        .astype(str)
+        .str.strip()
+    )
+
+    filtered_df["Category"] = (
+        filtered_df["Category"]
+        .astype(str)
+        .str.strip()
+    )
+
     if language == "Кыргызча":
 
         filtered_df = filtered_df[
-            filtered_df["Language"].str.lower() == "kyrgyz"
+            filtered_df["Language"]
+            .str.lower()
+            .isin(["kyrgyz", "кыргызча"])
         ]
 
     elif language == "English":
 
         filtered_df = filtered_df[
-            filtered_df["Language"].str.lower() == "english"
+            filtered_df["Language"]
+            .str.lower()
+            .isin(["english", "англисче"])
         ]
 
     elif language == "Русский":
 
         filtered_df = filtered_df[
-            filtered_df["Language"].str.lower() == "russian"
+            filtered_df["Language"]
+            .str.lower()
+            .isin(["russian", "русский"])
         ]
 
     # ================= SEARCH =================
@@ -641,8 +587,6 @@ elif page == "📊 Аналитика":
     </div>
 
     """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
 
