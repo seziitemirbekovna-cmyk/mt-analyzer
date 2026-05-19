@@ -100,6 +100,10 @@ h1,h2,h3{
     background:#f7efff;
 }
 
+.pink-card{
+    background:#fff0f7;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -206,7 +210,7 @@ if page == "🏠 Башкы бет":
 
     <div class="subtitle">
 
-    Машиналык Котормо • NLP • AI
+    Machine Translation • NLP • AI
 
     </div>
 
@@ -251,9 +255,38 @@ if page == "🏠 Башкы бет":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # ================= ABOUT PROJECT =================
+
     st.markdown("""
 
-    <div class="card">
+    <div class="card pink-card">
+
+    <h2 style="text-align:center;">
+
+    📖 ДОЛБООР ЖӨНҮНДӨ
+
+    </h2>
+
+    <p class="info-text">
+
+    Бул долбоор машиналык котормо
+    системаларын салыштыруу үчүн түзүлгөн.
+
+    Изилдөөдө Google Translate,
+    DeepL жана Yandex Translate
+    системалары анализденет.
+
+    </p>
+
+    </div>
+
+    """, unsafe_allow_html=True)
+
+    # ================= FACTS =================
+
+    st.markdown("""
+
+    <div class="card blue-card">
 
     <h2 style="text-align:center;">
 
@@ -271,7 +304,7 @@ if page == "🏠 Башкы бет":
 
     <br><br>
 
-    • Yandex Translate сленг сөздөрдө көбүрөөк ката кетирет.
+    • Yandex Translate интернет сленгдерде көбүрөөк ката кетирет.
 
     <br><br>
 
@@ -304,6 +337,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     👩‍🎓 Автор:
     Сезим Темирбековна
+    МКЛ-1-22
 
     <br>
 
@@ -317,7 +351,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    🏫 КМТУ им. И. Раззакова
+    🏫 Исхак Раззаков атындагы Кыргыз Мамлекеттик Техникалык Университети
 
     <br>
 
@@ -326,7 +360,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    🤖 NLP • AI • Machine Translation
+    🤖 NLP • Artificial Intelligence
 
     </div>
 
@@ -355,8 +389,6 @@ elif page == "🧠 Котормо анализи":
 
     """, unsafe_allow_html=True)
 
-    # ================= LANGUAGE =================
-
     language = st.selectbox(
 
         "🌍 ТИЛ ТАНДОО",
@@ -371,18 +403,6 @@ elif page == "🧠 Котормо анализи":
     )
 
     filtered_df = df.copy()
-
-    filtered_df["Language"] = (
-        filtered_df["Language"]
-        .astype(str)
-        .str.strip()
-    )
-
-    filtered_df["Category"] = (
-        filtered_df["Category"]
-        .astype(str)
-        .str.strip()
-    )
 
     if language == "Кыргызча":
 
@@ -408,8 +428,6 @@ elif page == "🧠 Котормо анализи":
             .isin(["russian", "русский"])
         ]
 
-    # ================= SEARCH =================
-
     search = st.text_input(
         "🔎 Сөз же сүйлөм жазыңыз"
     )
@@ -425,8 +443,6 @@ elif page == "🧠 Котормо анализи":
                 na=False
             )
         ]
-
-    # ================= CATEGORY =================
 
     col1, col2 = st.columns(2)
 
@@ -453,35 +469,21 @@ elif page == "🧠 Котормо анализи":
             filtered_df["Category"] == selected_category
         ]
 
-    # ================= WORD =================
-
     with col2:
 
-        if len(filtered_df) > 0:
+        words = sorted(
+            filtered_df["Expression"]
+            .dropna()
+            .unique()
+        )
 
-            words = sorted(
-                filtered_df["Expression"]
-                .dropna()
-                .unique()
-            )
+        expression = st.selectbox(
 
-            expression = st.selectbox(
+            "💬 СӨЗ ТАНДОО",
 
-                "💬 СӨЗ ТАНДОО",
+            words
 
-                words
-
-            )
-
-        else:
-
-            expression = None
-
-            st.warning(
-                "Маалымат табылган жок."
-            )
-
-    # ================= BUTTON =================
+        )
 
     if expression and st.button("📌 АНАЛИЗ КӨРСӨТҮҮ"):
 
@@ -499,7 +501,7 @@ elif page == "🧠 Котормо анализи":
 
             <div class="card blue-card">
 
-            <h2>💬 Сөз</h2>
+            <h2>💬 СӨЗ</h2>
 
             <p class="info-text">
             {row['Expression']}
@@ -525,7 +527,7 @@ elif page == "🧠 Котормо анализи":
 
             st.markdown(f"""
 
-            <div class="card blue-card">
+            <div class="card yellow-card">
 
             <h2>🌐 Google Translate</h2>
 
@@ -555,7 +557,7 @@ elif page == "🧠 Котормо анализи":
 
             st.markdown(f"""
 
-            <div class="card yellow-card">
+            <div class="card pink-card">
 
             <h2>📘 Yandex Translate</h2>
 
@@ -588,24 +590,143 @@ elif page == "📊 Аналитика":
 
     """, unsafe_allow_html=True)
 
+    st.markdown("<br>", unsafe_allow_html=True)
+
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.metric("🧠 DeepL", "92%")
 
     with col2:
-        st.metric("🌐 Google", "84%")
+        st.metric("🌐 Google Translate", "84%")
 
     with col3:
-        st.metric("📘 Yandex", "71%")
+        st.metric("📘 Yandex Translate", "71%")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.subheader("📚 Категориялар")
+    st.subheader("📚 Категориялар боюнча бөлүштүрүү")
 
     category_counts = df["Category"].value_counts()
 
     st.bar_chart(category_counts)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.markdown("""
+
+    <div class="card blue-card">
+
+    <h2>🤖 КОТОРМО СИСТЕМАЛАРЫНЫН АНАЛИЗИ</h2>
+
+    <p class="info-text">
+
+    ✅ DeepL эмоционалдык жана
+    сарказм сүйлөмдөрүн эң так которгон.
+
+    <br><br>
+
+    ✅ Google Translate техникалык
+    терминдерди жакшы түшүндүргөн.
+
+    <br><br>
+
+    ⚠️ Yandex Translate интернет
+    сленг жана мем сөздөрүндө
+    көбүрөөк ката кетирген.
+
+    <br><br>
+
+    ⚠️ Айрым фразеологизмдер
+    бардык системаларда түз
+    мааниде которулган.
+
+    </p>
+
+    </div>
+
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+
+    <div class="card green-card">
+
+    <h2>📌 МИСАЛДАР</h2>
+
+    <p class="info-text">
+
+    💬 "Break a leg"
+
+    <br>
+
+    Google Translate:
+    "Бутуңду сындыр"
+
+    <br>
+
+    Human Translation:
+    "Ийгилик каалайм"
+
+    <br><br>
+
+    💬 "Ghosting"
+
+    <br>
+
+    Yandex Translate:
+    "Арбак болуу"
+
+    <br>
+
+    Human Translation:
+    "Сүйлөшпөй жоголуп кетүү"
+
+    <br><br>
+
+    💬 "Delulu"
+
+    <br>
+
+    DeepL:
+    "Кыялкеч адам"
+
+    <br>
+
+    Human Translation:
+    "Реалдуулуктан алыстаган адам"
+
+    </p>
+
+    </div>
+
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+
+    <div class="card purple-card">
+
+    <h2>📖 ЖАЛПЫ ЖЫЙЫНТЫК</h2>
+
+    <p class="info-text">
+
+    Изилдөөнүн жыйынтыгында
+    DeepL эң сапаттуу котормо
+    көрсөткөнү аныкталды.
+
+    Google Translate
+    техникалык тексттерде
+    жакшы натыйжа берген.
+
+    Ал эми Yandex Translate
+    айрым сленг жана эмоционалдык
+    сүйлөмдөрдө так эмес
+    котормолорду берген.
+
+    </p>
+
+    </div>
+
+    """, unsafe_allow_html=True)
 
 # ================= CORPUS =================
 
