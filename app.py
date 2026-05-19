@@ -378,4 +378,3 @@ st.markdown(
     🌸 Machine Translation Analysis System
     """
 )
-```
