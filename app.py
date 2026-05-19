@@ -566,7 +566,6 @@ with col2:
         words
 
     )
-
                 "💬 СӨЗ ТАНДОО",
 
                 filtered_df["Expression"]
