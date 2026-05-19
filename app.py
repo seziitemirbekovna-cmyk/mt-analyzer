@@ -1,3 +1,5 @@
+# ================= IMPORT =================
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -87,54 +89,42 @@ h1,h2,h3{
     background:#eef9ff;
 }
 
+.big-title{
+    font-size:80px;
+    text-align:center;
+    font-family:Georgia;
+    color:#c2185b;
+}
+
+.subtitle{
+    text-align:center;
+    font-size:25px;
+    color:#7a5066;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-# ================= LOAD DATA =================
+# ================= DATA =================
 
 @st.cache_data
 def load_data():
 
-    df = pd.read_csv(
-        "corpus.csv",
-        sep=";"
-    )
+    try:
 
-    # КОЛОНКАЛАРДЫ ТАЗАЛОО
+        df = pd.read_csv(
+            "corpus.csv",
+            sep=";"
+        )
+
+    except:
+
+        df = pd.read_csv("corpus.csv")
 
     df.columns = [
         col.strip()
         for col in df.columns
     ]
-
-    # КАТЕГОРИЯЛАР
-
-    if "Category" in df.columns:
-
-        df["Category"] = df["Category"].replace({
-
-            "Business English": "💼 Бизнес Англис Тили",
-            "Psychology": "🧠 Психология",
-            "Emotional Expressions": "💔 Эмоционалдык Сөздөр",
-            "Memes": "😂 Мемдер",
-            "Internet Slang": "🌍 Интернет Сленги",
-            "Social Media": "📱 Социалдык Тармактар",
-            "Gaming Slang": "🎮 Оюн Сленги",
-            "Idioms": "📖 Идиомалар",
-            "Kyrgyz Proverbs": "🇰🇬 Кыргыз Макал-Лакаптары",
-            "Kyrgyz Expressions": "🗣 Кыргыз Сөз Айкаштары",
-            "Technical NLP": "🤖 NLP Терминдери",
-
-            # ЖАҢЫ КАТЕГОРИЯЛАР
-
-            "Sarcasm": "😂 Сарказм Жана Юмор",
-            "Movie Quotes": "🎬 Кино Жана Сериал Репликалары",
-            "AI Terms": "🤖 AI Жана Технология",
-            "Cultural Expressions": "🌏 Маданий Сөз Айкаштары",
-            "Spoken Language": "💬 Сүйлөө Тили",
-            "Regionalisms": "🌍 Диалект Жана Регионализмдер"
-
-        })
 
     return df
 
@@ -142,14 +132,20 @@ df = load_data()
 
 # ================= SIDEBAR =================
 
+st.sidebar.image(
+    "https://upload.wikimedia.org/wikipedia/commons/7/7e/Globe_icon.svg",
+    width=120
+)
+
 st.sidebar.markdown("""
 <h1 style='
 text-align:center;
 color:#c2185b;
 font-family:Georgia;
+font-size:35px;
 '>
 
-✨ АКЫЛДУУ КОТОРМО
+АКЫЛДУУ КОТОРМО
 
 </h1>
 """, unsafe_allow_html=True)
@@ -175,37 +171,30 @@ page = st.sidebar.radio(
 if page == "🏠 Башкы бет":
 
     st.markdown("""
-    <div style="
-        text-align:center;
-        background:white;
-        padding:80px 40px;
-        border-radius:40px;
-        box-shadow:0 10px 30px rgba(0,0,0,0.08);
-    ">
+    <div class="card">
 
-    <h1 style="
-        font-size:75px;
-        font-family:Georgia;
-        color:#c2185b;
-    ">
+    <div class="big-title">
 
     АКЫЛДУУ КОТОРМО
-    СИСТЕМАСЫ
+    СИСТЕМАСЫ ✨
 
-    </h1>
+    </div>
 
-    <p style="
-        font-size:24px;
-        color:#7a5066;
-        margin-top:20px;
-    ">
+    <div class="subtitle">
 
     NLP • AI • Машиналык Котормо
 
-    </p>
+    </div>
 
     </div>
     """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.image(
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+        use_container_width=True
+    )
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
@@ -214,27 +203,33 @@ if page == "🏠 Башкы бет":
     with c1:
 
         st.markdown("""
-        <div class="card">
-        <h2>🧠 Анализ</h2>
-        <p>AI котормолорун салыштыруу</p>
+        <div class="card blue-card">
+        <h2>🧠 AI Анализ</h2>
+        <p>
+        Машиналык котормо системаларын салыштыруу
+        </p>
         </div>
         """, unsafe_allow_html=True)
 
     with c2:
 
         st.markdown("""
-        <div class="card">
+        <div class="card green-card">
         <h2>📊 Аналитика</h2>
-        <p>Диаграммалар жана статистика</p>
+        <p>
+        Диаграммалар жана статистикалык маалыматтар
+        </p>
         </div>
         """, unsafe_allow_html=True)
 
     with c3:
 
         st.markdown("""
-        <div class="card">
+        <div class="card purple-card">
         <h2>📚 Корпус</h2>
-        <p>Изилдөө маалыматтары</p>
+        <p>
+        Изилдөө маалыматтары жана corpus dataset
+        </p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -247,17 +242,17 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <h1 style="
     text-align:center;
-    font-size:55px;
+    font-size:60px;
     font-family:Georgia;
     ">
 
-    ДОЛБООР ЖӨНҮНДӨ ✨
+    АВТОР ЖӨНҮНДӨ ✨
 
     </h1>
 
     <div style="
-    font-size:22px;
-    line-height:2.3;
+    font-size:24px;
+    line-height:2.2;
     color:#4a4a4a;
     ">
 
@@ -265,7 +260,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    🎓 Адистик: Компьютердик Лингвистика
+    🎓 Компьютердик Лингвистика
 
     <br>
 
@@ -277,7 +272,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
 
     <br>
 
-    🤖 NLP • AI • Translation
+    🤖 Artificial Intelligence • NLP
 
     </div>
 
@@ -293,11 +288,11 @@ elif page == "🧠 Котормо анализи":
 
     <h1 style="
     text-align:center;
-    font-size:55px;
+    font-size:60px;
     font-family:Georgia;
     ">
 
-    КОТОРМО АНАЛИЗИ ✨
+    КОТОРМО АНАЛИЗИ 🧠
 
     </h1>
 
@@ -306,111 +301,115 @@ elif page == "🧠 Котормо анализи":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    search = st.text_input(
-        "🔎 Сөз же сүйлөм жазыңыз"
-    )
+    if "Expression" in df.columns:
 
-    filtered_df = df.copy()
+        search = st.text_input(
+            "🔎 Сөз же сүйлөм жазыңыз"
+        )
 
-    if search and "Expression" in df.columns:
+        filtered_df = df.copy()
 
-        filtered_df = filtered_df[
-            filtered_df["Expression"].astype(str).str.contains(
-                search,
-                case=False,
-                na=False
-            )
-        ]
+        if search:
 
-    if "Category" in df.columns:
+            filtered_df = filtered_df[
+                filtered_df["Expression"].astype(str).str.contains(
+                    search,
+                    case=False,
+                    na=False
+                )
+            ]
 
-        category = st.selectbox(
+        if "Category" in filtered_df.columns:
 
-            "🧩 КАТЕГОРИЯ",
-
-            ["Бардыгы"] + sorted(
+            categories = sorted(
                 filtered_df["Category"].dropna().unique()
             )
 
-        )
+            selected_category = st.selectbox(
 
-        if category != "Бардыгы":
+                "🧩 КАТЕГОРИЯ",
 
-            filtered_df = filtered_df[
-                filtered_df["Category"] == category
-            ]
+                ["Бардыгы"] + categories
 
-    if "Expression" in filtered_df.columns:
+            )
 
-        expression = st.selectbox(
-            "💬 СӨЗ АЙКАШЫ",
-            filtered_df["Expression"]
-        )
+            if selected_category != "Бардыгы":
 
-        if st.button("📌 АНАЛИЗ"):
+                filtered_df = filtered_df[
+                    filtered_df["Category"] == selected_category
+                ]
 
-            row = filtered_df[
-                filtered_df["Expression"] == expression
-            ].iloc[0]
+        if len(filtered_df) > 0:
 
-            st.markdown("<br>", unsafe_allow_html=True)
+            expression = st.selectbox(
+                "💬 СӨЗ АЙКАШЫ",
+                filtered_df["Expression"]
+            )
 
-            col1, col2 = st.columns(2)
+            if st.button("📌 АНАЛИЗ"):
 
-            with col1:
-
-                st.markdown(f"""
-                <div class="card blue-card">
-                <h2>💬 Сөз Айкашы</h2>
-                <p style="font-size:20px;">
-                {row['Expression']}
-                </p>
-                </div>
-                """, unsafe_allow_html=True)
+                row = filtered_df[
+                    filtered_df["Expression"] == expression
+                ].iloc[0]
 
                 st.markdown("<br>", unsafe_allow_html=True)
 
-                st.markdown(f"""
-                <div class="card green-card">
-                <h2>✅ Адам Котормосу</h2>
-                <p style="font-size:20px;">
-                {row['Human Translation']}
-                </p>
-                </div>
-                """, unsafe_allow_html=True)
+                col1, col2 = st.columns(2)
 
-                st.markdown("<br>", unsafe_allow_html=True)
+                with col1:
 
-                st.markdown(f"""
-                <div class="card blue-card">
-                <h2>🌐 Google Translate</h2>
-                <p style="font-size:20px;">
-                {row['Google Translate']}
-                </p>
-                </div>
-                """, unsafe_allow_html=True)
+                    st.markdown(f"""
+                    <div class="card blue-card">
+                    <h2>💬 Сөз Айкашы</h2>
+                    <p style="font-size:22px;">
+                    {row['Expression']}
+                    </p>
+                    </div>
+                    """, unsafe_allow_html=True)
 
-            with col2:
+                    st.markdown("<br>", unsafe_allow_html=True)
 
-                st.markdown(f"""
-                <div class="card purple-card">
-                <h2>🧠 DeepL</h2>
-                <p style="font-size:20px;">
-                {row['DeepL']}
-                </p>
-                </div>
-                """, unsafe_allow_html=True)
+                    st.markdown(f"""
+                    <div class="card green-card">
+                    <h2>✅ Адам Котормосу</h2>
+                    <p style="font-size:22px;">
+                    {row['Human Translation']}
+                    </p>
+                    </div>
+                    """, unsafe_allow_html=True)
 
-                st.markdown("<br>", unsafe_allow_html=True)
+                    st.markdown("<br>", unsafe_allow_html=True)
 
-                st.markdown(f"""
-                <div class="card sky-card">
-                <h2>📘 Yandex Translate</h2>
-                <p style="font-size:20px;">
-                {row['Yandex Translate']}
-                </p>
-                </div>
-                """, unsafe_allow_html=True)
+                    st.markdown(f"""
+                    <div class="card blue-card">
+                    <h2>🌐 Google Translate</h2>
+                    <p style="font-size:22px;">
+                    {row['Google Translate']}
+                    </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                with col2:
+
+                    st.markdown(f"""
+                    <div class="card purple-card">
+                    <h2>🧠 DeepL</h2>
+                    <p style="font-size:22px;">
+                    {row['DeepL']}
+                    </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                    st.markdown("<br>", unsafe_allow_html=True)
+
+                    st.markdown(f"""
+                    <div class="card yellow-card">
+                    <h2>📘 Yandex Translate</h2>
+                    <p style="font-size:22px;">
+                    {row['Yandex Translate']}
+                    </p>
+                    </div>
+                    """, unsafe_allow_html=True)
 
 # ================= ANALYTICS =================
 
@@ -421,7 +420,7 @@ elif page == "📊 Аналитика":
 
     <h1 style="
     text-align:center;
-    font-size:55px;
+    font-size:60px;
     font-family:Georgia;
     ">
 
@@ -436,59 +435,51 @@ elif page == "📊 Аналитика":
 
     if "Category" in df.columns:
 
-        chart1, chart2 = st.columns(2)
+        category_counts = df[
+            "Category"
+        ].value_counts()
 
-        with chart1:
+        st.subheader("📚 Категориялар")
 
-            st.subheader("Категориялар")
+        fig1, ax1 = plt.subplots(figsize=(7,7))
 
-            category_counts = df[
-                "Category"
-            ].value_counts()
+        ax1.pie(
 
-            fig1, ax1 = plt.subplots(
-                figsize=(6,6)
-            )
+            category_counts,
 
-            ax1.pie(
+            labels=category_counts.index,
 
-                category_counts,
+            autopct='%1.1f%%'
 
-                labels=category_counts.index,
+        )
 
-                autopct='%1.1f%%'
+        st.pyplot(fig1)
 
-            )
+        st.markdown("<br><br>", unsafe_allow_html=True)
 
-            st.pyplot(fig1)
+        st.subheader("🤖 AI Тактык Салыштыруу")
 
-        with chart2:
+        translator_scores = pd.DataFrame({
 
-            st.subheader("AI Тактык")
+            "Система": [
 
-            translator_scores = pd.DataFrame({
+                "DeepL",
+                "Google Translate",
+                "Yandex Translate"
 
-                "Система": [
+            ],
 
-                    "DeepL",
-                    "Google Translate",
-                    "Yandex Translate"
+            "Тактык": [
+                92,
+                84,
+                71
+            ]
 
-                ],
+        })
 
-                "Тактык": [
-                    92,
-                    84,
-                    71
-                ]
-
-            })
-
-            st.bar_chart(
-                translator_scores.set_index(
-                    "Система"
-                )
-            )
+        st.bar_chart(
+            translator_scores.set_index("Система")
+        )
 
 # ================= CORPUS =================
 
@@ -512,17 +503,7 @@ elif page == "📚 Изилдөө корпусу":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    display_df = df.rename(columns={
-
-        "Expression": "Сөз Айкашы",
-        "Human Translation": "Адам Котормосу",
-        "Google Translate": "Google Translate",
-        "DeepL": "DeepL",
-        "Yandex Translate": "Yandex Translate",
-        "Language": "Тил",
-        "Category": "Категория"
-
-    })
+    display_df = df.copy()
 
     # COMMENT ӨЧҮРҮҮ
 
