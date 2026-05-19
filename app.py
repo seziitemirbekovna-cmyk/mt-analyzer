@@ -491,80 +491,81 @@ elif page == "🧠 Котормо анализи":
         ]
 
     )
+# ================= FILTER =================
 
-    filtered_df = df.copy()
+filtered_df = df.copy()
 
-    if language == "🇰🇬 Кыргызча":
+# ---------- LANGUAGE ----------
 
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "Kyrgyz",
-                case=False,
-                na=False
-            )
-        ]
+if language == "🇰🇬 Кыргызча":
 
-    elif language == "🇬🇧 English":
+    filtered_df = filtered_df[
+        filtered_df["Language"].astype(str).str.lower() == "kyrgyz"
+    ]
 
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "English",
-                case=False,
-                na=False
-            )
-        ]
+elif language == "🇬🇧 English":
 
-    elif language == "🇷🇺 Русский":
+    filtered_df = filtered_df[
+        filtered_df["Language"].astype(str).str.lower() == "english"
+    ]
 
-        filtered_df = filtered_df[
-            filtered_df["Language"].astype(str).str.contains(
-                "Russian",
-                case=False,
-                na=False
-            )
-        ]
+elif language == "🇷🇺 Русский":
 
-    search = st.text_input(
-        "🔎 Сөз же сүйлөм жазыңыз"
+    filtered_df = filtered_df[
+        filtered_df["Language"].astype(str).str.lower() == "russian"
+    ]
+
+# ---------- SEARCH ----------
+
+if search:
+
+    filtered_df = filtered_df[
+        filtered_df["Expression"].astype(str).str.contains(
+            search,
+            case=False,
+            na=False
+        )
+    ]
+
+# ---------- CATEGORY ----------
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    categories = sorted(
+        filtered_df["Category"].dropna().unique()
     )
 
-    if search:
+    selected_category = st.selectbox(
 
-        filtered_df = filtered_df[
-            filtered_df["Expression"].astype(str).str.contains(
-                search,
-                case=False,
-                na=False
-            )
-        ]
+        "🧩 КАТЕГОРИЯ ТАНДОО",
 
-    col1, col2 = st.columns(2)
+        ["Бардыгы"] + categories
 
-    with col1:
+    )
 
-        categories = sorted(
-            filtered_df["Category"].dropna().unique()
-        )
+if selected_category != "Бардыгы":
 
-        selected_category = st.selectbox(
+    filtered_df = filtered_df[
+        filtered_df["Category"] == selected_category
+    ]
 
-            "🧩 КАТЕГОРИЯ ТАНДОО",
+# ---------- WORD ----------
 
-            ["Бардыгы"] + categories
+with col2:
 
-        )
+    words = sorted(
+        filtered_df["Expression"].dropna().unique()
+    )
 
-    if selected_category != "Бардыгы":
+    expression = st.selectbox(
 
-        filtered_df = filtered_df[
-            filtered_df["Category"] == selected_category
-        ]
+        "💬 СӨЗ ТАНДОО",
 
-    with col2:
+        words
 
-        if len(filtered_df) > 0:
-
-            expression = st.selectbox(
+    )
 
                 "💬 СӨЗ ТАНДОО",
 
