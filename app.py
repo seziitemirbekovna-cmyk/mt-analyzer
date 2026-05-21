@@ -6,92 +6,115 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(
     page_title="АКЫЛДУУ КОТОРМО СИСТЕМАСЫ",
-    page_icon="✨",
+    page_icon="🧠",
     layout="wide"
 )
 
+# ================= DARK MODE =================
+
+theme = st.sidebar.toggle("🌙 Түнкү режим")
+
+# ================= COLORS =================
+
+if theme:
+
+    bg = "#121212"
+    card = "#1e1e1e"
+    text = "white"
+
+else:
+
+    bg = "#fff7fb"
+    card = "white"
+    text = "#4a4a4a"
+
 # ================= STYLE =================
 
-st.markdown("""
+st.markdown(f"""
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-html, body, [class*="css"]{
+html, body, [class*="css"]{{
     font-family:'Poppins', sans-serif;
-}
+}}
 
-.main{
-    background:linear-gradient(135deg,#fff7fb,#ffeef6,#fff7fb);
-}
+.main{{
+    background:{bg};
+}}
 
-.block-container{
+.block-container{{
     padding-top:2rem;
-}
+}}
 
-section[data-testid="stSidebar"]{
+section[data-testid="stSidebar"]{{
     background:#fff1f7;
-}
+}}
 
-h1,h2,h3{
-    color:#c2185b;
-}
+h1,h2,h3,p,label,div{{
+    color:{text};
+}}
 
-.stButton>button{
-    background:linear-gradient(90deg,#ff4fa3,#d63384);
-    color:white;
-    border:none;
-    border-radius:20px;
-    padding:14px 40px;
-    font-size:18px;
-    font-weight:600;
-}
-
-.stButton>button:hover{
-    transform:scale(1.04);
-    transition:0.3s;
-}
-
-.card{
-    background:white;
+.card{{
+    background:{card};
     padding:30px;
     border-radius:30px;
     box-shadow:0 8px 20px rgba(0,0,0,0.08);
     margin-bottom:20px;
-    transition:0.3s;
-}
+    animation:fadeUp 0.6s ease;
+}}
 
-.card:hover{
+.card:hover{{
     transform:translateY(-5px);
-    box-shadow:0 12px 25px rgba(0,0,0,0.13);
-}
+    transition:0.3s;
+}}
 
-.big-title{
-    font-size:78px;
+.big-title{{
+    font-size:75px;
     text-align:center;
     font-family:Georgia;
     color:#c2185b;
     font-weight:700;
-}
+}}
 
-.subtitle{
+.subtitle{{
     text-align:center;
     font-size:28px;
     color:#7a5066;
-    margin-top:10px;
-}
+}}
 
-.info-text{
-    font-size:21px;
+.info-text{{
+    font-size:20px;
     line-height:2;
-    color:#4a4a4a;
-}
+}}
 
-.blue-card{background:#edf4ff;}
-.green-card{background:#eefcf3;}
-.yellow-card{background:#fff9e9;}
-.purple-card{background:#f7efff;}
-.pink-card{background:#fff0f7;}
+.blue-card{{background:#edf4ff;}}
+.green-card{{background:#eefcf3;}}
+.yellow-card{{background:#fff9e9;}}
+.purple-card{{background:#f7efff;}}
+.pink-card{{background:#fff0f7;}}
+
+.stButton>button{{
+    background:linear-gradient(90deg,#ff4fa3,#d63384);
+    color:white;
+    border:none;
+    border-radius:20px;
+    padding:12px 35px;
+    font-size:18px;
+    font-weight:600;
+}}
+
+@keyframes fadeUp{{
+from{{
+opacity:0;
+transform:translateY(20px);
+}}
+
+to{{
+opacity:1;
+transform:translateY(0);
+}}
+}}
 
 </style>
 """, unsafe_allow_html=True)
@@ -103,13 +126,27 @@ def load_data():
 
     try:
         df = pd.read_csv("corpus.csv", encoding="utf-8")
+
     except:
-        df = pd.read_csv("corpus.csv", sep=";", encoding="utf-8")
+        df = pd.read_csv(
+            "corpus.csv",
+            sep=";",
+            encoding="utf-8"
+        )
 
     df.columns = [col.strip() for col in df.columns]
 
-    df["Category"] = df["Category"].astype(str).str.strip()
-    df["Language"] = df["Language"].astype(str).str.strip()
+    df["Category"] = (
+        df["Category"]
+        .astype(str)
+        .str.strip()
+    )
+
+    df["Language"] = (
+        df["Language"]
+        .astype(str)
+        .str.strip()
+    )
 
     df = df.drop_duplicates()
 
@@ -120,25 +157,24 @@ df = load_data()
 # ================= SIDEBAR =================
 
 st.sidebar.markdown("""
-<div style="text-align:center;padding-top:10px;">
+<div style="text-align:center;">
 
 <img src="https://kstu.kg/fileadmin/user_upload/kyrg.png" width="120">
 
 <h1 style="
 color:#c2185b;
 font-family:Georgia;
-font-size:36px;
+font-size:34px;
 ">
 АКЫЛДУУ<br>КОТОРМО
 </h1>
 
 <div style="
 font-size:15px;
-color:#7a5066;
 line-height:1.6;
 ">
-NLP • Machine Translation<br>
-Graduation Project
+NLP • Машиналык котормо<br>
+Дипломдук долбоор
 </div>
 
 </div>
@@ -151,6 +187,7 @@ page = st.sidebar.radio(
         "👩‍🎓 Автор жөнүндө",
         "🧠 Котормо анализи",
         "📊 Аналитика",
+        "⚠️ Ката анализи",
         "📚 Изилдөө корпусу"
     ]
 )
@@ -168,7 +205,7 @@ if page == "🏠 Башкы бет":
     </div>
 
     <div class="subtitle">
-    Machine Translation • NLP • AI
+    Машиналык котормо • NLP • Жасалма интеллект
     </div>
 
     </div>
@@ -179,7 +216,7 @@ if page == "🏠 Башкы бет":
         use_container_width=True
     )
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.info("🧠 Корпустук NLP изилдөө долбоору")
 
     col1, col2, col3, col4 = st.columns(4)
 
@@ -196,18 +233,20 @@ if page == "🏠 Башкы бет":
         st.metric("🤖 MT Системалар", "3")
 
     st.success(
-        "🏆 Изилдөөнүн негизинде DeepL көп учурда эң так машиналык котормо системасы катары көрүнөт."
+        "🏆 DeepL көп учурда эң так машиналык котормо системасы болуп чыкты."
     )
 
     st.markdown("""
     <div class="card pink-card">
 
-    <h2 style="text-align:center;">📖 ДОЛБООР ЖӨНҮНДӨ</h2>
+    <h2>📖 ДОЛБООР ЖӨНҮНДӨ</h2>
 
     <p class="info-text">
-    Бул сайт машиналык котормо системаларын салыштыруу жана талдоо үчүн түзүлгөн.
-    Изилдөөдө Google Translate, DeepL жана Yandex Translate системаларынын
-    котормолору адам котормосу менен салыштырылат.
+    Бул веб-система машиналык котормо
+    системаларын талдоо жана салыштыруу үчүн түзүлгөн.
+    Изилдөөдө Google Translate,
+    DeepL жана Yandex Translate
+    системалары адам котормосу менен салыштырылат.
     </p>
 
     </div>
@@ -216,16 +255,16 @@ if page == "🏠 Башкы бет":
     st.markdown("""
     <div class="card blue-card">
 
-    <h2 style="text-align:center;">🤖 КЫЗЫКТУУ ФАКТЫЛАР</h2>
+    <h2>🤖 КЫЗЫКТУУ ФАКТЫЛАР</h2>
 
     <p class="info-text">
     • DeepL эмоционалдык жана идиомалык сүйлөмдөрдү көбүрөөк туура берет.
     <br><br>
     • Google Translate техникалык жана жалпы тексттерде туруктуу натыйжа көрсөтөт.
     <br><br>
-    • Yandex Translate айрым сленг, мем жана диалект сөздөрүндө маанини толук бере албайт.
+    • Yandex Translate айрым сленг жана диалект сөздөрүндө маанини толук бере албайт.
     <br><br>
-    • Фразеологизмдер, сарказм жана интернет сленг машиналык котормо үчүн эң татаал бөлүктөрдүн бири.
+    • Фразеологизмдер жана интернет сленг машиналык котормо үчүн эң татаал бөлүктөрдүн бири.
     </p>
 
     </div>
@@ -243,19 +282,28 @@ elif page == "👩‍🎓 Автор жөнүндө":
     </h1>
 
     <div class="info-text">
+
     👩‍🎓 Автор: Сезим Темирбековна
-    <br>
+    <br><br>
+
     🎓 Адистик: Компьютердик Лингвистика
-    <br>
+    <br><br>
+
     👩‍🎓 Тайпа: МКЛ(б)-1-22
-    <br>
+    <br><br>
+
     🏛 Институт: Маалыматтык Технологиялар Институту
-    <br>
+    <br><br>
+
     🏫 И. Раззаков атындагы Кыргыз Мамлекеттик Техникалык Университети
-    <br>
-    👩‍🏫 Илимий жетекчи: Укуева Клара Акиновна
-    <br>
-    🤖 NLP • Artificial Intelligence • Machine Translation
+    <br><br>
+
+    👩‍🏫 Илимий жетекчи:
+    Укуева Клара Акиновна
+    <br><br>
+
+    🤖 NLP • Жасалма интеллект • Машиналык котормо
+
     </div>
 
     </div>
@@ -267,126 +315,146 @@ elif page == "🧠 Котормо анализи":
 
     st.markdown("""
     <div class="card">
+
     <h1 style="text-align:center;font-size:60px;">
-    КОТОРМО АНАЛИЗИ 🧠
+    🧠 КОТОРМО АНАЛИЗИ
     </h1>
+
     </div>
     """, unsafe_allow_html=True)
 
-    language = st.selectbox(
-        "🌍 ТИЛ ТАНДОО",
-        [
-            "Бардык тилдер",
-            "Кыргызча",
-            "English",
-            "Русский"
-        ]
-    )
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+
+        language = st.selectbox(
+            "🌍 ТИЛ",
+            [
+                "Бардык тилдер",
+                "Кыргызча",
+                "English",
+                "Русский"
+            ]
+        )
 
     filtered_df = df.copy()
 
     if language == "Кыргызча":
+
         filtered_df = filtered_df[
-            filtered_df["Language"].str.lower().isin(["kyrgyz", "кыргызча"])
+            filtered_df["Language"]
+            .str.lower()
+            .isin(["kyrgyz","кыргызча"])
         ]
 
     elif language == "English":
+
         filtered_df = filtered_df[
-            filtered_df["Language"].str.lower().isin(["english", "англисче"])
+            filtered_df["Language"]
+            .str.lower()
+            .isin(["english","англисче"])
         ]
 
     elif language == "Русский":
+
         filtered_df = filtered_df[
-            filtered_df["Language"].str.lower().isin(["russian", "русский"])
+            filtered_df["Language"]
+            .str.lower()
+            .isin(["russian","русский"])
         ]
 
-    search = st.text_input("🔎 Сөз же сүйлөм жазыңыз")
+    with col2:
 
-    if search:
-        filtered_df = filtered_df[
-            filtered_df["Expression"]
-            .astype(str)
-            .str.contains(search, case=False, na=False)
-        ]
-
-    col1, col2 = st.columns(2)
-
-    with col1:
         categories = sorted(
             filtered_df["Category"]
-            .astype(str)
-            .str.strip()
+            .dropna()
             .unique()
         )
 
         selected_category = st.selectbox(
-            "🧩 КАТЕГОРИЯ ТАНДОО",
+            "🧩 КАТЕГОРИЯ",
             ["Бардыгы"] + list(categories)
         )
 
     if selected_category != "Бардыгы":
+
         filtered_df = filtered_df[
-            filtered_df["Category"] == selected_category
+            filtered_df["Category"]
+            == selected_category
         ]
 
-    with col2:
-        if len(filtered_df) > 0:
-            words = sorted(filtered_df["Expression"].dropna().unique())
+    with col3:
 
-            expression = st.selectbox(
-                "💬 СӨЗ ТАНДОО",
-                words
-            )
-        else:
-            expression = None
-            st.warning("Маалымат табылган жок.")
+        expressions = sorted(
+            filtered_df["Expression"]
+            .dropna()
+            .unique()
+        )
 
-    if expression and st.button("📌 АНАЛИЗ КӨРСӨТҮҮ"):
+        expression = st.selectbox(
+            "💬 СӨЗ",
+            expressions
+        )
 
-        row = filtered_df[
-            filtered_df["Expression"] == expression
-        ].iloc[0]
+    if st.button("📌 АНАЛИЗ КӨРСӨТҮҮ"):
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        with st.spinner("🤖 Жасалма интеллект анализ жүргүзүүдө..."):
 
-        c1, c2 = st.columns(2)
+            row = filtered_df[
+                filtered_df["Expression"]
+                == expression
+            ].iloc[0]
 
-        with c1:
-            st.markdown(f"""
-            <div class="card blue-card">
-            <h2>💬 Сөз / Сүйлөм</h2>
-            <p class="info-text">{row['Expression']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+            c1, c2 = st.columns(2)
 
-            st.markdown(f"""
-            <div class="card green-card">
-            <h2>✅ Адам котормосу</h2>
-            <p class="info-text">{row['Human Translation']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+            with c1:
 
-            st.markdown(f"""
-            <div class="card yellow-card">
-            <h2>🌐 Google Translate</h2>
-            <p class="info-text">{row['Google Translate']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <div class="card blue-card">
+                <h2>💬 Сөз</h2>
+                <p class="info-text">
+                {row['Expression']}
+                </p>
+                </div>
+                """, unsafe_allow_html=True)
 
-        with c2:
-            st.markdown(f"""
-            <div class="card purple-card">
-            <h2>🧠 DeepL</h2>
-            <p class="info-text">{row['DeepL']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <div class="card green-card">
+                <h2>✅ Адам котормосу</h2>
+                <p class="info-text">
+                {row['Human Translation']}
+                </p>
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.markdown(f"""
-            <div class="card pink-card">
-            <h2>📘 Yandex Translate</h2>
-            <p class="info-text">{row['Yandex Translate']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <div class="card yellow-card">
+                <h2>🌐 Google Translate</h2>
+                <p class="info-text">
+                {row['Google Translate']}
+                </p>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c2:
+
+                st.markdown(f"""
+                <div class="card purple-card">
+                <h2>🧠 DeepL</h2>
+                <p class="info-text">
+                {row['DeepL']}
+                </p>
+                </div>
+                """, unsafe_allow_html=True)
+
+                st.markdown(f"""
+                <div class="card pink-card">
+                <h2>📘 Yandex Translate</h2>
+                <p class="info-text">
+                {row['Yandex Translate']}
+                </p>
+                </div>
+                """, unsafe_allow_html=True)
 
 # ================= ANALYTICS =================
 
@@ -394,13 +462,13 @@ elif page == "📊 Аналитика":
 
     st.markdown("""
     <div class="card">
+
     <h1 style="text-align:center;font-size:60px;">
     📊 АНАЛИТИКА
     </h1>
+
     </div>
     """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
 
@@ -409,136 +477,62 @@ elif page == "📊 Аналитика":
         st.progress(92)
 
     with col2:
-        st.metric("🌐 Google Translate", "84%")
+        st.metric("🌐 Google", "84%")
         st.progress(84)
 
     with col3:
-        st.metric("📘 Yandex Translate", "71%")
+        st.metric("📘 Yandex", "71%")
         st.progress(71)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.subheader("📚 Категориялар боюнча бөлүштүрүү")
+    st.success(
+        "🏆 DeepL эң так система болуп чыкты."
+    )
 
     category_counts = df["Category"].value_counts()
 
+    st.subheader("📚 Категориялар боюнча бөлүштүрүү")
+
     st.bar_chart(category_counts)
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    fig, ax = plt.subplots(figsize=(8,8))
 
-    st.subheader("🥇 Категориялар боюнча мыкты система")
-
-    best_systems = pd.DataFrame({
-        "Категория": [
-            "AI Жана Технология",
-            "Сарказм",
-            "Юмор",
-            "Интернет Сленг",
-            "Диалекттер",
-            "Идиомалар"
-        ],
-        "Мыкты система": [
-            "Google Translate",
-            "DeepL",
-            "DeepL",
-            "DeepL",
-            "Адам котормосу",
-            "DeepL"
-        ],
-        "Себеби": [
-            "Техникалык терминдерди жакшы берет",
-            "Контекстти жакшыраак түшүнөт",
-            "Маанини табигый берет",
-            "Сленгди жакын мааниде берет",
-            "Диалект сөздөрдү AI толук түшүнбөйт",
-            "Түз эмес маанини жакшыраак берет"
-        ]
-    })
-
-    st.dataframe(
-        best_systems,
-        use_container_width=True,
-        hide_index=True
+    category_counts.plot(
+        kind='pie',
+        autopct='%1.1f%%',
+        ax=ax
     )
 
-    st.markdown("""
-    <div class="card blue-card">
+    ax.set_ylabel("")
 
-    <h2>🤖 КОТОРМО СИСТЕМАЛАРЫНЫН АНАЛИЗИ</h2>
+    st.pyplot(fig)
 
-    <p class="info-text">
-    ✅ DeepL эмоционалдык, идиомалык жана сарказм сүйлөмдөрүн салыштырмалуу так которгон.
-    <br><br>
-    ✅ Google Translate техникалык терминдерде жана жалпы сүйлөмдөрдө жакшы натыйжа көрсөткөн.
-    <br><br>
-    ⚠️ Yandex Translate интернет сленг, мем жана диалект сөздөрүндө көп учурда түз мааниге жакын которгон.
-    <br><br>
-    ⚠️ Фразеологизмдер жана маданий сөз айкаштары машиналык котормо үчүн эң татаал бөлүк болуп саналат.
-    </p>
+# ================= ERROR ANALYSIS =================
 
-    </div>
-    """, unsafe_allow_html=True)
+elif page == "⚠️ Ката анализи":
 
     st.markdown("""
-    <div class="card green-card">
+    <div class="card">
 
-    <h2>📌 МИСАЛДАР</h2>
+    <h1 style="text-align:center;">
+    ⚠️ КАТА АНАЛИЗИ
+    </h1>
 
     <p class="info-text">
-    💬 <b>Ghosting</b>
-    <br>
-    Yandex Translate: "Арбак болуу" ❌
-    <br>
-    Адам котормосу: "Сүйлөшпөй жоголуп кетүү" ✅
+
+    • Буквалдуу котормо
     <br><br>
 
-    💬 <b>Break the ice</b>
-    <br>
-    Google Translate: "Музду сындыруу" ❌
-    <br>
-    Адам котормосу: "Абалды жеңилдетүү" ✅
+    • Сарказмдагы каталар
     <br><br>
 
-    💬 <b>Delulu</b>
-    <br>
-    DeepL: "Кыялкеч адам" ✅
-    <br>
-    Адам котормосу: "Реалдуулуктан алыстаган адам" ✅
-    </p>
+    • Интернет сленг маселеси
+    <br><br>
 
-    </div>
-    """, unsafe_allow_html=True)
+    • Фразеологизмдер
+    <br><br>
 
-    st.markdown("""
-    <div class="card yellow-card">
+    • Диалект сөздөр
 
-    <h2>🔥 ЭҢ ТАТААЛ КАТЕГОРИЯЛАР</h2>
-
-    <p class="info-text">
-    • Сарказм
-    <br>
-    • Интернет Сленг
-    <br>
-    • Диалекттер
-    <br>
-    • Идиомалар
-    <br>
-    • Мемдер
-    </p>
-
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="card purple-card">
-
-    <h2>📖 ЖАЛПЫ ЖЫЙЫНТЫК</h2>
-
-    <p class="info-text">
-    Изилдөөнүн негизинде DeepL системасы контекстке жакын котормолорду көбүрөөк берген.
-    Google Translate техникалык жана нейтралдуу тексттерде жакшы иштеген.
-    Yandex Translate айрым сленг, диалект жана маданий сөз айкаштарын түз мааниде которгон.
-    Ошондуктан машиналык котормону колдонууда адамдык редакциялоо дагы деле маанилүү.
     </p>
 
     </div>
@@ -550,45 +544,37 @@ elif page == "📚 Изилдөө корпусу":
 
     st.markdown("""
     <div class="card">
+
     <h1 style="text-align:center;font-size:60px;">
     📚 ИЗИЛДӨӨ КОРПУСУ
     </h1>
+
     </div>
     """, unsafe_allow_html=True)
 
-    st.caption(f"📚 Жалпы мисалдар саны: {len(df)}")
-
-    search_corpus = st.text_input("🔎 Корпустан издөө")
-
     display_df = df.rename(columns={
-        "Expression": "Сөз",
-        "Human Translation": "Адам котормосу",
-        "Google Translate": "Google",
-        "DeepL": "DeepL",
-        "Yandex Translate": "Yandex",
-        "Language": "Тил",
-        "Category": "Категория"
+        "Expression":"Сөз",
+        "Human Translation":"Адам котормосу",
+        "Google Translate":"Google",
+        "DeepL":"DeepL",
+        "Yandex Translate":"Yandex",
+        "Language":"Тил",
+        "Category":"Категория"
     })
-
-    if "Comment" in display_df.columns:
-        display_df = display_df.drop(columns=["Comment"])
-
-    if search_corpus:
-        display_df = display_df[
-            display_df.astype(str).apply(
-                lambda row: row.str.contains(
-                    search_corpus,
-                    case=False,
-                    na=False
-                ).any(),
-                axis=1
-            )
-        ]
 
     st.dataframe(
         display_df,
         use_container_width=True,
         hide_index=True
+    )
+
+    csv = df.to_csv(index=False).encode('utf-8')
+
+    st.download_button(
+        "📥 CSV ЖҮКТӨӨ",
+        csv,
+        "corpus.csv",
+        "text/csv"
     )
 
 # ================= FOOTER =================
@@ -598,11 +584,9 @@ st.markdown("---")
 st.markdown("""
 <div style='
 text-align:center;
-color:#7a5066;
 font-size:18px;
 padding:15px;
 '>
-✨ NLP • Machine Translation • Corpus Analysis • KSTU • 2026 ✨
+✨ NLP • Машиналык котормо • Корпустук анализ • КМТУ • 2026 ✨
 </div>
 """, unsafe_allow_html=True)
- вот смотри мой код добавь свои идеи сюда
