@@ -18,14 +18,31 @@ theme = st.sidebar.toggle("🌙 Түнкү режим")
 
 if theme:
 
-    bg = "#121212"
-    card = "#1e1e1e"
+    bg = """
+    linear-gradient(
+    135deg,
+    #0f0f0f,
+    #181818,
+    #1f1f1f
+    )
+    """
+
+    card = "rgba(30,30,30,0.75)"
     text = "white"
 
 else:
 
-    bg = "#fff7fb"
-    card = "white"
+    bg = """
+    linear-gradient(
+    135deg,
+    #fff7fb,
+    #ffeef6,
+    #f8f3ff,
+    #eef4ff
+    )
+    """
+
+    card = "rgba(255,255,255,0.65)"
     text = "#4a4a4a"
 
 # ================= STYLE =================
@@ -57,24 +74,28 @@ h1,h2,h3,p,label,div{{
 
 .card{{
     background:{card};
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.25);
     padding:30px;
     border-radius:30px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.08);
-    margin-bottom:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.08);
+    margin-bottom:25px;
     animation:fadeUp 0.6s ease;
 }}
 
 .card:hover{{
-    transform:translateY(-5px);
-    transition:0.3s;
+    transform:translateY(-8px) scale(1.01);
+    transition:0.35s;
 }}
 
 .big-title{{
-    font-size:75px;
+    font-size:82px;
     text-align:center;
     font-family:Georgia;
     color:#c2185b;
     font-weight:700;
+    text-shadow:0 0 18px rgba(255,79,163,0.25);
+    animation:float 4s ease-in-out infinite;
 }}
 
 .subtitle{{
@@ -95,13 +116,34 @@ h1,h2,h3,p,label,div{{
 .pink-card{{background:#fff0f7;}}
 
 .stButton>button{{
-    background:linear-gradient(90deg,#ff4fa3,#d63384);
+    background:
+    linear-gradient(
+    90deg,
+    #ff4fa3,
+    #d63384,
+    #8e44ad
+    );
+
     color:white;
     border:none;
     border-radius:20px;
     padding:12px 35px;
     font-size:18px;
     font-weight:600;
+}}
+
+.stButton>button:hover{{
+    transform:scale(1.03);
+    transition:0.3s;
+}}
+
+::-webkit-scrollbar{{
+width:10px;
+}}
+
+::-webkit-scrollbar-thumb{{
+background:#d63384;
+border-radius:20px;
 }}
 
 @keyframes fadeUp{{
@@ -113,6 +155,20 @@ transform:translateY(20px);
 to{{
 opacity:1;
 transform:translateY(0);
+}}
+}}
+
+@keyframes float{{
+0%{{
+transform:translateY(0px);
+}}
+
+50%{{
+transform:translateY(-6px);
+}}
+
+100%{{
+transform:translateY(0px);
 }}
 }}
 
@@ -171,7 +227,7 @@ font-size:34px;
 
 <div style="
 font-size:15px;
-line-height:1.6;
+line-height:1.8;
 ">
 NLP • Машиналык котормо<br>
 Дипломдук долбоор
@@ -208,6 +264,15 @@ if page == "🏠 Башкы бет":
     Машиналык котормо • NLP • Жасалма интеллект
     </div>
 
+    <div style='
+    text-align:center;
+    font-size:20px;
+    color:#c2185b;
+    margin-top:15px;
+    '>
+    🧠 AI Powered Translation Research Platform
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
@@ -217,6 +282,12 @@ if page == "🏠 Башкы бет":
     )
 
     st.info("🧠 Корпустук NLP изилдөө долбоору")
+
+    st.markdown("""
+    <h2 style='text-align:center;'>
+    📈 СИСТЕМА СТАТИСТИКАСЫ
+    </h2>
+    """, unsafe_allow_html=True)
 
     col1, col2, col3, col4 = st.columns(4)
 
@@ -260,11 +331,14 @@ if page == "🏠 Башкы бет":
     <p class="info-text">
     • DeepL эмоционалдык жана идиомалык сүйлөмдөрдү көбүрөөк туура берет.
     <br><br>
-    • Google Translate техникалык жана жалпы тексттерде туруктуу натыйжа көрсөтөт.
+
+    • Google Translate техникалык тексттерде жакшы иштейт.
     <br><br>
-    • Yandex Translate айрым сленг жана диалект сөздөрүндө маанини толук бере албайт.
+
+    • Yandex Translate интернет сленгде көбүрөөк ката кетирет.
     <br><br>
-    • Фразеологизмдер жана интернет сленг машиналык котормо үчүн эң татаал бөлүктөрдүн бири.
+
+    • Фразеологизмдер машиналык котормо үчүн эң татаал бөлүктөрдүн бири.
     </p>
 
     </div>
@@ -488,23 +562,17 @@ elif page == "📊 Аналитика":
         "🏆 DeepL эң так система болуп чыкты."
     )
 
+    st.markdown("<br>", unsafe_allow_html=True)
+
     category_counts = df["Category"].value_counts()
 
-    st.subheader("📚 Категориялар боюнча бөлүштүрүү")
+    st.subheader("📊 Категориялар боюнча статистика")
 
-    st.bar_chart(category_counts)
+    top_categories = category_counts.sort_values(
+        ascending=False
+    ).head(10)
 
-    fig, ax = plt.subplots(figsize=(8,8))
-
-    category_counts.plot(
-        kind='pie',
-        autopct='%1.1f%%',
-        ax=ax
-    )
-
-    ax.set_ylabel("")
-
-    st.pyplot(fig)
+    st.bar_chart(top_categories)
 
 # ================= ERROR ANALYSIS =================
 
@@ -513,30 +581,79 @@ elif page == "⚠️ Ката анализи":
     st.markdown("""
     <div class="card">
 
-    <h1 style="text-align:center;">
+    <h1 style="
+    text-align:center;
+    font-size:60px;
+    ">
     ⚠️ КАТА АНАЛИЗИ
     </h1>
 
-    <p class="info-text">
-
-    • Буквалдуу котормо
-    <br><br>
-
-    • Сарказмдагы каталар
-    <br><br>
-
-    • Интернет сленг маселеси
-    <br><br>
-
-    • Фразеологизмдер
-    <br><br>
-
-    • Диалект сөздөр
-
+    <p class="info-text" style="text-align:center;">
+    Машиналык котормо системаларында
+    эң көп кездешкен каталар
+    төмөнкү категорияларга бөлүндү.
     </p>
 
     </div>
     """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.markdown("""
+        <div class="card pink-card">
+
+        <h2>📝 Буквалдуу котормо</h2>
+
+        <p class="info-text">
+        Система сүйлөмдүн түз маанисин гана берип,
+        чыныгы контекстти жоготкон учурлар.
+        </p>
+
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="card yellow-card">
+
+        <h2>😂 Сарказм</h2>
+
+        <p class="info-text">
+        Сарказм жана ирония
+        көп учурда туура эмес которулган.
+        </p>
+
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+
+        st.markdown("""
+        <div class="card blue-card">
+
+        <h2>🌐 Интернет сленг</h2>
+
+        <p class="info-text">
+        Delulu, NPC, Ghosting сыяктуу
+        сөздөрдү AI дайыма эле туура түшүнө албайт.
+        </p>
+
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="card purple-card">
+
+        <h2>📚 Фразеологизмдер</h2>
+
+        <p class="info-text">
+        Идиомалык сөз айкаштары
+        түз мааниде которулуп калган учурлар.
+        </p>
+
+        </div>
+        """, unsafe_allow_html=True)
 
 # ================= CORPUS =================
 
@@ -552,7 +669,7 @@ elif page == "📚 Изилдөө корпусу":
     </div>
     """, unsafe_allow_html=True)
 
-    display_df = df.rename(columns={
+    display_df = df.rename(columns={{
         "Expression":"Сөз",
         "Human Translation":"Адам котормосу",
         "Google Translate":"Google",
@@ -560,7 +677,7 @@ elif page == "📚 Изилдөө корпусу":
         "Yandex Translate":"Yandex",
         "Language":"Тил",
         "Category":"Категория"
-    })
+    }})
 
     st.dataframe(
         display_df,
