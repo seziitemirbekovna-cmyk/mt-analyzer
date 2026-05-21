@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(
     page_title="АКЫЛДУУ КОТОРМО СИСТЕМАСЫ",
-    page_icon="🌸",
+    page_icon="✨",
     layout="wide"
 )
 
@@ -50,18 +50,15 @@ h1,h2,h3{
 .stButton>button:hover{
     transform:scale(1.04);
     transition:0.3s;
-    box-shadow:0 0 20px rgba(255,79,163,0.5);
 }
 
 .card{
-    background:rgba(255,255,255,0.60);
-    backdrop-filter:blur(14px);
+    background:white;
     padding:30px;
     border-radius:30px;
     box-shadow:0 8px 20px rgba(0,0,0,0.08);
     margin-bottom:20px;
     transition:0.3s;
-    animation:fadeIn 0.8s ease;
 }
 
 .card:hover{
@@ -69,29 +66,17 @@ h1,h2,h3{
     box-shadow:0 12px 25px rgba(0,0,0,0.13);
 }
 
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
 .big-title{
-    font-size:58px;
+    font-size:78px;
     text-align:center;
     font-family:Georgia;
     color:#c2185b;
     font-weight:700;
-    line-height:1.2;
 }
 
 .subtitle{
     text-align:center;
-    font-size:25px;
+    font-size:28px;
     color:#7a5066;
     margin-top:10px;
 }
@@ -100,13 +85,6 @@ h1,h2,h3{
     font-size:21px;
     line-height:2;
     color:#4a4a4a;
-}
-
-[data-testid="metric-container"]{
-    background:rgba(255,255,255,0.50);
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 6px 15px rgba(0,0,0,0.05);
 }
 
 .blue-card{background:#edf4ff;}
@@ -149,7 +127,7 @@ st.sidebar.markdown("""
 <h1 style="
 color:#c2185b;
 font-family:Georgia;
-font-size:34px;
+font-size:36px;
 ">
 АКЫЛДУУ<br>КОТОРМО
 </h1>
@@ -159,8 +137,8 @@ font-size:15px;
 color:#7a5066;
 line-height:1.6;
 ">
-Компьютердик Лингвистика<br>
-Дипломдук Долбоор
+NLP • Machine Translation<br>
+Graduation Project
 </div>
 
 </div>
@@ -190,7 +168,7 @@ if page == "🏠 Башкы бет":
     </div>
 
     <div class="subtitle">
-    Жасалма Интеллект • NLP • Машиналык Котормо
+    Machine Translation • NLP • AI
     </div>
 
     </div>
@@ -253,22 +231,6 @@ if page == "🏠 Башкы бет":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="card green-card">
-
-    <h2 style="text-align:center;">🌍 ИЗИЛДӨӨ БАГЫТТАРЫ</h2>
-
-    <p class="info-text">
-    • Кыргызча, англисче жана орусча мисалдарды салыштыруу.
-    <br><br>
-    • Маданий мааниси бар сөз айкаштарын талдоо.
-    <br><br>
-    • Машиналык котормодо маанинин жоголушун аныктоо.
-    </p>
-
-    </div>
-    """, unsafe_allow_html=True)
-
 # ================= ABOUT =================
 
 elif page == "👩‍🎓 Автор жөнүндө":
@@ -293,7 +255,7 @@ elif page == "👩‍🎓 Автор жөнүндө":
     <br>
     👩‍🏫 Илимий жетекчи: Укуева Клара Акиновна
     <br>
-    🤖 NLP • Жасалма Интеллект • Машиналык Котормо
+    🤖 NLP • Artificial Intelligence • Machine Translation
     </div>
 
     </div>
@@ -306,7 +268,7 @@ elif page == "🧠 Котормо анализи":
     st.markdown("""
     <div class="card">
     <h1 style="text-align:center;font-size:60px;">
-    🧠 КОТОРМО АНАЛИЗИ
+    КОТОРМО АНАЛИЗИ 🧠
     </h1>
     </div>
     """, unsafe_allow_html=True)
@@ -381,60 +343,50 @@ elif page == "🧠 Котормо анализи":
 
     if expression and st.button("📌 АНАЛИЗ КӨРСӨТҮҮ"):
 
-        with st.spinner("🤖 AI анализ жүргүзүүдө..."):
+        row = filtered_df[
+            filtered_df["Expression"] == expression
+        ].iloc[0]
 
-            row = filtered_df[
-                filtered_df["Expression"] == expression
-            ].iloc[0]
+        st.markdown("<br>", unsafe_allow_html=True)
 
-            st.markdown("<br>", unsafe_allow_html=True)
+        c1, c2 = st.columns(2)
 
-            c1, c2 = st.columns(2)
+        with c1:
+            st.markdown(f"""
+            <div class="card blue-card">
+            <h2>💬 Сөз / Сүйлөм</h2>
+            <p class="info-text">{row['Expression']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-            with c1:
-                st.markdown(f"""
-                <div class="card blue-card">
-                <h2>💬 Сөз / Сүйлөм</h2>
-                <p class="info-text">{row['Expression']}</p>
-                </div>
-                """, unsafe_allow_html=True)
+            st.markdown(f"""
+            <div class="card green-card">
+            <h2>✅ Адам котормосу</h2>
+            <p class="info-text">{row['Human Translation']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-                st.markdown(f"""
-                <div class="card green-card">
-                <h2>✅ Адам котормосу</h2>
-                <p class="info-text">{row['Human Translation']}</p>
-                </div>
-                """, unsafe_allow_html=True)
+            st.markdown(f"""
+            <div class="card yellow-card">
+            <h2>🌐 Google Translate</h2>
+            <p class="info-text">{row['Google Translate']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-                st.markdown(f"""
-                <div class="card yellow-card">
-                <h2>🌐 Google Translate</h2>
-                <p class="info-text">{row['Google Translate']}</p>
-                </div>
-                """, unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""
+            <div class="card purple-card">
+            <h2>🧠 DeepL</h2>
+            <p class="info-text">{row['DeepL']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-            with c2:
-                st.markdown(f"""
-                <div class="card purple-card">
-                <h2>🧠 DeepL</h2>
-                <p class="info-text">{row['DeepL']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-
-                st.markdown(f"""
-                <div class="card pink-card">
-                <h2>📘 Yandex Translate</h2>
-                <p class="info-text">{row['Yandex Translate']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-
-                if "Comment" in row:
-                    st.markdown(f"""
-                    <div class="card">
-                    <h2>💡 Комментарий</h2>
-                    <p class="info-text">{row['Comment']}</p>
-                    </div>
-                    """, unsafe_allow_html=True)
+            st.markdown(f"""
+            <div class="card pink-card">
+            <h2>📘 Yandex Translate</h2>
+            <p class="info-text">{row['Yandex Translate']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
 # ================= ANALYTICS =================
 
@@ -447,6 +399,8 @@ elif page == "📊 Аналитика":
     </h1>
     </div>
     """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
 
@@ -462,49 +416,15 @@ elif page == "📊 Аналитика":
         st.metric("📘 Yandex Translate", "71%")
         st.progress(71)
 
-    st.markdown("""
-    <div class="card pink-card">
-
-    <h2>🧠 AI INSIGHT</h2>
-
-    <p class="info-text">
-    DeepL контекстти, эмоционалдык маанини жана идиомалык сүйлөмдөрдү
-    эң жакшы түшүнгөн система катары көрүнөт.
-    Google Translate техникалык терминдерде туруктуу натыйжа берет,
-    ал эми Yandex Translate айрым сленг жана маданий сөз айкаштарын түз мааниде которот.
-    </p>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
     st.subheader("📚 Категориялар боюнча бөлүштүрүү")
 
     category_counts = df["Category"].value_counts()
 
-    fig, ax = plt.subplots(figsize=(7,7))
+    st.bar_chart(category_counts)
 
-    colors = [
-        "#ffb3c6",
-        "#ffc8dd",
-        "#cdb4db",
-        "#bde0fe",
-        "#a2d2ff",
-        "#f9bec7",
-        "#f7cad0",
-        "#d8bbff",
-        "#ffd6a5",
-        "#caffbf",
-        "#b5ead7"
-    ]
-
-    ax.pie(
-        category_counts,
-        labels=category_counts.index,
-        autopct='%1.1f%%',
-        colors=colors[:len(category_counts)]
-    )
-
-    st.pyplot(fig)
+    st.markdown("<br>", unsafe_allow_html=True)
 
     st.subheader("🥇 Категориялар боюнча мыкты система")
 
@@ -665,14 +585,8 @@ elif page == "📚 Изилдөө корпусу":
             )
         ]
 
-    styled_display_df = display_df.style.set_properties(**{
-        "background-color": "#fff7fb",
-        "color": "#4a4a4a",
-        "border-color": "#ffd6e7"
-    })
-
     st.dataframe(
-        styled_display_df,
+        display_df,
         use_container_width=True,
         hide_index=True
     )
@@ -685,10 +599,10 @@ st.markdown("""
 <div style='
 text-align:center;
 color:#7a5066;
-font-size:20px;
-padding:25px;
-margin-top:40px;
+font-size:18px;
+padding:15px;
 '>
-🌸 Машиналык Котормо • NLP Изилдөө • KSTU • 2026 🌸
+✨ NLP • Machine Translation • Corpus Analysis • KSTU • 2026 ✨
 </div>
 """, unsafe_allow_html=True)
+ вот смотри мой код добавь свои идеи сюда
