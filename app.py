@@ -270,7 +270,6 @@ if page == "🏠 Башкы бет":
     color:#c2185b;
     margin-top:15px;
     '>
-    🧠 AI Powered Translation Research Platform
     </div>
 
     </div>
