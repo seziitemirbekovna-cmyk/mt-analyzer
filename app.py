@@ -42,7 +42,7 @@ else:
     )
     """
 
-    card = "rgba(255,255,255,0.65)"
+    card = "rgba(255,255,255,0.70)"
     text = "#4a4a4a"
 
 # ================= STYLE =================
@@ -56,23 +56,23 @@ html, body, [class*="css"]{{
     font-family:'Poppins', sans-serif;
 }}
 
-.main{{
+.main {{
     background:{bg};
 }}
 
-.block-container{{
+.block-container {{
     padding-top:2rem;
 }}
 
-section[data-testid="stSidebar"]{{
+section[data-testid="stSidebar"] {{
     background:#fff1f7;
 }}
 
-h1,h2,h3,p,label,div{{
+h1,h2,h3,p,label,div {{
     color:{text};
 }}
 
-.card{{
+.card {{
     background:{card};
     backdrop-filter:blur(14px);
     border:1px solid rgba(255,255,255,0.25);
@@ -83,12 +83,12 @@ h1,h2,h3,p,label,div{{
     animation:fadeUp 0.6s ease;
 }}
 
-.card:hover{{
+.card:hover {{
     transform:translateY(-8px) scale(1.01);
     transition:0.35s;
 }}
 
-.big-title{{
+.big-title {{
     font-size:82px;
     text-align:center;
     font-family:Georgia;
@@ -98,13 +98,13 @@ h1,h2,h3,p,label,div{{
     animation:float 4s ease-in-out infinite;
 }}
 
-.subtitle{{
+.subtitle {{
     text-align:center;
     font-size:28px;
     color:#7a5066;
 }}
 
-.info-text{{
+.info-text {{
     font-size:20px;
     line-height:2;
 }}
@@ -115,7 +115,7 @@ h1,h2,h3,p,label,div{{
 .purple-card{{background:#f7efff;}}
 .pink-card{{background:#fff0f7;}}
 
-.stButton>button{{
+.stButton>button {{
     background:
     linear-gradient(
     90deg,
@@ -132,42 +132,42 @@ h1,h2,h3,p,label,div{{
     font-weight:600;
 }}
 
-.stButton>button:hover{{
+.stButton>button:hover {{
     transform:scale(1.03);
     transition:0.3s;
 }}
 
-::-webkit-scrollbar{{
+::-webkit-scrollbar {{
 width:10px;
 }}
 
-::-webkit-scrollbar-thumb{{
+::-webkit-scrollbar-thumb {{
 background:#d63384;
 border-radius:20px;
 }}
 
-@keyframes fadeUp{{
-from{{
+@keyframes fadeUp {{
+from {{
 opacity:0;
 transform:translateY(20px);
 }}
 
-to{{
+to {{
 opacity:1;
 transform:translateY(0);
 }}
 }}
 
-@keyframes float{{
-0%{{
+@keyframes float {{
+0% {{
 transform:translateY(0px);
 }}
 
-50%{{
+50% {{
 transform:translateY(-6px);
 }}
 
-100%{{
+100% {{
 transform:translateY(0px);
 }}
 }}
@@ -323,27 +323,6 @@ if page == "🏠 Башкы бет":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="card blue-card">
-
-    <h2>🤖 КЫЗЫКТУУ ФАКТЫЛАР</h2>
-
-    <p class="info-text">
-    • DeepL эмоционалдык жана идиомалык сүйлөмдөрдү көбүрөөк туура берет.
-    <br><br>
-
-    • Google Translate техникалык тексттерде жакшы иштейт.
-    <br><br>
-
-    • Yandex Translate интернет сленгде көбүрөөк ката кетирет.
-    <br><br>
-
-    • Фразеологизмдер машиналык котормо үчүн эң татаал бөлүктөрдүн бири.
-    </p>
-
-    </div>
-    """, unsafe_allow_html=True)
-
 # ================= ABOUT =================
 
 elif page == "👩‍🎓 Автор жөнүндө":
@@ -418,7 +397,7 @@ elif page == "🧠 Котормо анализи":
         filtered_df = filtered_df[
             filtered_df["Language"]
             .str.lower()
-            .isin(["kyrgyz","кыргызча"])
+            .isin(["kyrgyz", "кыргызча"])
         ]
 
     elif language == "English":
@@ -426,7 +405,7 @@ elif page == "🧠 Котормо анализи":
         filtered_df = filtered_df[
             filtered_df["Language"]
             .str.lower()
-            .isin(["english","англисче"])
+            .isin(["english", "англисче"])
         ]
 
     elif language == "Русский":
@@ -434,7 +413,7 @@ elif page == "🧠 Котормо анализи":
         filtered_df = filtered_df[
             filtered_df["Language"]
             .str.lower()
-            .isin(["russian","русский"])
+            .isin(["russian", "русский"])
         ]
 
     with col2:
@@ -486,27 +465,21 @@ elif page == "🧠 Котормо анализи":
                 st.markdown(f"""
                 <div class="card blue-card">
                 <h2>💬 Сөз</h2>
-                <p class="info-text">
-                {row['Expression']}
-                </p>
+                <p class="info-text">{row['Expression']}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
                 st.markdown(f"""
                 <div class="card green-card">
                 <h2>✅ Адам котормосу</h2>
-                <p class="info-text">
-                {row['Human Translation']}
-                </p>
+                <p class="info-text">{row['Human Translation']}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
                 st.markdown(f"""
                 <div class="card yellow-card">
                 <h2>🌐 Google Translate</h2>
-                <p class="info-text">
-                {row['Google Translate']}
-                </p>
+                <p class="info-text">{row['Google Translate']}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -515,18 +488,14 @@ elif page == "🧠 Котормо анализи":
                 st.markdown(f"""
                 <div class="card purple-card">
                 <h2>🧠 DeepL</h2>
-                <p class="info-text">
-                {row['DeepL']}
-                </p>
+                <p class="info-text">{row['DeepL']}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
                 st.markdown(f"""
                 <div class="card pink-card">
                 <h2>📘 Yandex Translate</h2>
-                <p class="info-text">
-                {row['Yandex Translate']}
-                </p>
+                <p class="info-text">{row['Yandex Translate']}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -669,15 +638,15 @@ elif page == "📚 Изилдөө корпусу":
     </div>
     """, unsafe_allow_html=True)
 
-    display_df = df.rename(columns={{
-        "Expression":"Сөз",
-        "Human Translation":"Адам котормосу",
-        "Google Translate":"Google",
-        "DeepL":"DeepL",
-        "Yandex Translate":"Yandex",
-        "Language":"Тил",
-        "Category":"Категория"
-    }})
+    display_df = df.rename(columns={
+        "Expression": "Сөз",
+        "Human Translation": "Адам котормосу",
+        "Google Translate": "Google",
+        "DeepL": "DeepL",
+        "Yandex Translate": "Yandex",
+        "Language": "Тил",
+        "Category": "Категория"
+    })
 
     st.dataframe(
         display_df,
