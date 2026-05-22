@@ -553,7 +553,7 @@ elif page == "⚠️ Каталар боюнча талдоо":
     text-align:center;
     font-size:60px;
     ">
-    ⚠️ КАТА АНАЛИЗИ
+    ⚠️ КАТАЛАР БОЮНЧА ТАЛДОО
     </h1>
 
     <p class="info-text" style="text-align:center;">
